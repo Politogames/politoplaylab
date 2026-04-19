@@ -394,7 +394,7 @@
       countEl.textContent = `Pregunta ${current + 1} de ${questions.length}`;
 
       answersEl.innerHTML = "";
-      [...item.options].sort(() => Math.random() - 0.5).forEach(option => {.options.forEach(option => {
+      [...item.options].sort(() => Math.random() - 0.5).forEach(option => {
         const btn = document.createElement("button");
         btn.className = "answer-btn";
         btn.textContent = option;
