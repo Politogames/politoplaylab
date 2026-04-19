@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 ASTROBOT - Misión Tabla del 2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+
+:root {
+–space-black: #050a1a;
+–deep-blue: #0a1628;
+–neon-cyan: #00f5ff;
+–neon-green: #39ff14;
+–neon-yellow: #ffee00;
+–neon-pink: #ff006e;
+–neon-purple: #bc00ff;
+–star-white: #e8f4ff;
+–panel-bg: rgba(0,20,50,0.85);
+–panel-border: rgba(0,245,255,0.3);
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–space-black);
+font-family: ‘Rajdhani’, sans-serif;
+color: var(–star-white);
+min-height: 100vh;
+overflow-x: hidden;
+position: relative;
+}
+
+/* STARFIELD */
+#stars {
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+pointer-events: none; z-index: 0;
+background:
+radial-gradient(1px 1px at 10% 15%, white, transparent),
+radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.8), transparent),
+radial-gradient(2px 2px at 40% 30%, white, transparent),
+radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.6), transparent),
+radial-gradient(1px 1px at 70% 20%, white, transparent),
+radial-gradient(2px 2px at 85% 55%, rgba(255,255,255,0.9), transparent),
+radial-gradient(1px 1px at 90% 10%, white, transparent),
+radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.7), transparent),
+radial-gradient(1px 1px at 60% 50%, white, transparent),
+radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.5), transparent),
+radial-gradient(1px 1px at 75% 75%, white, transparent),
+radial-gradient(2px 2px at 50% 5%, rgba(0,245,255,0.8), transparent),
+radial-gradient(1px 1px at 5% 50%, rgba(188,0,255,0.6), transparent),
+radial-gradient(1px 1px at 95% 85%, rgba(255,238,0,0.7), transparent),
+var(–space-black);
+}
+
+#app {
+position: relative; z-index: 1;
+max-width: 680px;
+margin: 0 auto;
+padding: 16px;
+min-height: 100vh;
+}
+
+/* HEADER */
+.game-header {
+text-align: center;
+padding: 20px 0 12px;
+}
+.game-title {
+font-family: ‘Orbitron’, monospace;
+font-size: clamp(1.4rem, 5vw, 2.2rem);
+font-weight: 900;
+color: var(–neon-cyan);
+text-shadow: 0 0 20px var(–neon-cyan), 0 0 40px rgba(0,245,255,0.4);
+letter-spacing: 3px;
+animation: flicker 4s infinite;
+}
+.game-subtitle {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.55rem;
+color: var(–neon-yellow);
+margin-top: 6px;
+letter-spacing: 1px;
+}
+
+@keyframes flicker {
+0%,95%,100% { opacity:1; }
+96% { opacity:0.7; }
+97% { opacity:1; }
+98% { opacity:0.5; }
+99% { opacity:1; }
+}
+
+/* PANEL */
+.panel {
+background: var(–panel-bg);
+border: 1px solid var(–panel-border);
+border-radius: 12px;
+padding: 20px;
+margin: 12px 0;
+backdrop-filter: blur(8px);
+box-shadow: 0 0 20px rgba(0,245,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.panel-title {
+font-family: ‘Orbitron’, monospace;
+font-size: 0.75rem;
+color: var(–neon-cyan);
+letter-spacing: 2px;
+margin-bottom: 12px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+/* LEVEL SELECTOR */
+.level-btn {
+display: block;
+width: 100%;
+background: rgba(0,10,30,0.8);
+border: 1px solid var(–panel-border);
+border-radius: 10px;
+padding: 16px 20px;
+margin: 10px 0;
+cursor: pointer;
+text-align: left;
+transition: all 0.2s;
+color: var(–star-white);
+font-family: ‘Rajdhani’, sans-serif;
+position: relative;
+overflow: hidden;
+}
+.level-btn:hover {
+border-color: var(–neon-cyan);
+box-shadow: 0 0 15px rgba(0,245,255,0.2);
+transform: translateY(-1px);
+}
+.level-btn.active { border-color: var(–neon-green); box-shadow: 0 0 15px rgba(57,255,20,0.25); }
+.level-btn .lvl-title {
+font-family: ‘Orbitron’, monospace;
+font-size: 0.85rem;
+font-weight: 700;
+display: block;
+margin-bottom: 4px;
+}
+.level-btn .lvl-desc { font-size: 0.95rem; color: rgba(232,244,255,0.7); }
+.level-1 .lvl-title { color: var(–neon-green); }
+.level-2 .lvl-title { color: var(–neon-yellow); }
+.level-3 .lvl-title { color: var(–neon-pink); }
+.level-badge {
+position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+font-size: 1.6rem;
+}
+
+/* STATS BAR */
+.stats-bar {
+display: flex;
+gap: 12px;
+flex-wrap: wrap;
+align-items: center;
+margin-bottom: 14px;
+}
+.stat-block {
+flex: 1;
+min-width: 120px;
+background: rgba(0,10,30,0.6);
+border: 1px solid rgba(0,245,255,0.15);
+border-radius: 8px;
+padding: 10px 14px;
+}
+.stat-label {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.45rem;
+color: rgba(232,244,255,0.5);
+display: block;
+margin-bottom: 4px;
+}
+.stat-value {
+font-family: ‘Orbitron’, monospace;
+font-size: 1.1rem;
+font-weight: 700;
+color: var(–neon-yellow);
+}
+.stat-value.cyan { color: var(–neon-cyan); }
+.stat-value.green { color: var(–neon-green); }
+.stat-value.pink { color: var(–neon-pink); }
+
+/* ENERGY BAR */
+.energy-display { font-size: 1.3rem; letter-spacing: 2px; }
+
+/* ASTROBOT */
+.astrobot-container {
+text-align: center;
+padding: 10px 0;
+position: relative;
+}
+.astrobot {
+font-size: 3.5rem;
+display: inline-block;
+animation: float 3s ease-in-out infinite;
+filter: drop-shadow(0 0 12px rgba(0,245,255,0.5));
+}
+@keyframes float {
+0%,100% { transform: translateY(0); }
+50% { transform: translateY(-8px); }
+}
+.astrobot.shake {
+animation: shake 0.4s;
+}
+@keyframes shake {
+0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}
+}
+.astrobot.bounce {
+animation: bounce 0.4s;
+}
+@keyframes bounce {
+0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.1)}
+}
+.speech-bubble {
+background: rgba(0,245,255,0.1);
+border: 1px solid rgba(0,245,255,0.4);
+border-radius: 12px;
+padding: 12px 16px;
+margin: 10px 0;
+font-size: 1.05rem;
+line-height: 1.5;
+font-weight: 600;
+position: relative;
+}
+.speech-bubble::before {
+content: ‘▲’;
+position: absolute;
+top: -12px;
+left: 50%;
+transform: translateX(-50%);
+color: rgba(0,245,255,0.4);
+font-size: 0.8rem;
+}
+
+/* QUESTION */
+.question-area { text-align: center; }
+.mission-tag {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.55rem;
+color: rgba(232,244,255,0.5);
+letter-spacing: 2px;
+margin-bottom: 8px;
+}
+.question-text {
+font-family: ‘Orbitron’, monospace;
+font-size: clamp(1.3rem, 5vw, 1.8rem);
+font-weight: 900;
+color: white;
+margin: 10px 0 16px;
+text-shadow: 0 0 20px rgba(255,238,0,0.4);
+}
+.question-num {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.5rem;
+color: var(–neon-yellow);
+margin-bottom: 4px;
+}
+
+/* OPTIONS */
+.options-grid {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+gap: 10px;
+margin: 14px 0;
+}
+.option-btn {
+background: rgba(0,10,30,0.7);
+border: 1.5px solid rgba(0,245,255,0.25);
+border-radius: 10px;
+padding: 14px 8px;
+cursor: pointer;
+font-family: ‘Orbitron’, monospace;
+font-weight: 700;
+font-size: 1.1rem;
+color: white;
+transition: all 0.15s;
+text-align: center;
+}
+.option-btn:hover:not(:disabled) {
+border-color: var(–neon-cyan);
+background: rgba(0,245,255,0.1);
+transform: scale(1.04);
+box-shadow: 0 0 12px rgba(0,245,255,0.2);
+}
+.option-btn.correct {
+border-color: var(–neon-green) !important;
+background: rgba(57,255,20,0.15) !important;
+box-shadow: 0 0 15px rgba(57,255,20,0.3);
+}
+.option-btn.wrong {
+border-color: var(–neon-pink) !important;
+background: rgba(255,0,110,0.15) !important;
+}
+.option-btn:disabled { cursor: default; }
+.option-label {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.5rem;
+display: block;
+color: rgba(232,244,255,0.4);
+margin-bottom: 4px;
+}
+
+/* FEEDBACK */
+.feedback-box {
+border-radius: 10px;
+padding: 14px 16px;
+margin: 12px 0;
+font-size: 1.05rem;
+font-weight: 600;
+line-height: 1.5;
+animation: fadeIn 0.3s ease;
+}
+.feedback-box.correct {
+background: rgba(57,255,20,0.1);
+border: 1px solid rgba(57,255,20,0.4);
+color: var(–neon-green);
+}
+.feedback-box.wrong {
+background: rgba(255,0,110,0.1);
+border: 1px solid rgba(255,0,110,0.4);
+color: #ff6b9d;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* NEXT BUTTON */
+.btn-next {
+width: 100%;
+background: linear-gradient(135deg, rgba(0,245,255,0.2), rgba(0,100,200,0.2));
+border: 1.5px solid var(–neon-cyan);
+border-radius: 10px;
+padding: 14px;
+cursor: pointer;
+font-family: ‘Orbitron’, monospace;
+font-weight: 700;
+font-size: 0.85rem;
+color: var(–neon-cyan);
+letter-spacing: 2px;
+transition: all 0.2s;
+margin-top: 10px;
+}
+.btn-next:hover {
+background: rgba(0,245,255,0.2);
+box-shadow: 0 0 20px rgba(0,245,255,0.3);
+}
+.btn-next.start {
+background: linear-gradient(135deg, rgba(57,255,20,0.2), rgba(0,150,50,0.2));
+border-color: var(–neon-green);
+color: var(–neon-green);
+}
+.btn-next.restart {
+background: linear-gradient(135deg, rgba(255,238,0,0.2), rgba(200,100,0,0.2));
+border-color: var(–neon-yellow);
+color: var(–neon-yellow);
+}
+
+/* PROGRESS BAR */
+.progress-track {
+background: rgba(0,10,30,0.7);
+border: 1px solid rgba(0,245,255,0.15);
+border-radius: 4px;
+height: 6px;
+margin: 8px 0;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–neon-cyan), var(–neon-green));
+border-radius: 4px;
+transition: width 0.4s ease;
+box-shadow: 0 0 8px rgba(0,245,255,0.5);
+}
+
+/* RANKING SCREEN */
+.ranking-screen { text-align: center; }
+.ranking-badge {
+font-size: 4rem;
+display: block;
+margin: 10px 0;
+animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+0%,100%{transform:scale(1)} 50%{transform:scale(1.08)}
+}
+.ranking-title {
+font-family: ‘Orbitron’, monospace;
+font-size: clamp(1.2rem, 4vw, 1.8rem);
+font-weight: 900;
+margin: 8px 0;
+}
+.ranking-title.gold { color: var(–neon-yellow); text-shadow: 0 0 20px rgba(255,238,0,0.5); }
+.ranking-title.silver { color: #a8c8ff; text-shadow: 0 0 20px rgba(168,200,255,0.5); }
+.ranking-title.green { color: var(–neon-green); text-shadow: 0 0 20px rgba(57,255,20,0.5); }
+.ranking-score {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.9rem;
+color: var(–neon-cyan);
+margin: 12px 0;
+}
+.ranking-msg {
+font-size: 1.1rem;
+line-height: 1.6;
+color: rgba(232,244,255,0.85);
+margin: 10px 0 16px;
+}
+
+/* STARS COLLECTED */
+.stars-row {
+font-size: 1.5rem;
+letter-spacing: 4px;
+margin: 8px 0;
+}
+
+/* SCREEN TRANSITIONS */
+.screen { animation: screenIn 0.35s ease; }
+@keyframes screenIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* DIVIDER */
+.divider {
+border: none;
+border-top: 1px solid rgba(0,245,255,0.1);
+margin: 12px 0;
+}
+
+/* LIVES (level 3) */
+.lives-display { font-size: 1.4rem; letter-spacing: 3px; }
+
+/* MEDALS ROW */
+.medals-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 8px 0; }
+.medal {
+background: rgba(0,10,30,0.7);
+border: 1px solid rgba(0,245,255,0.2);
+border-radius: 8px;
+padding: 6px 12px;
+font-size: 0.9rem;
+font-weight: 600;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.3); border-radius: 4px; }
+</style>
+
+</head>
+<body>
+<div id="stars"></div>
+<div id="app">
+
+  <div class="game-header">
+    <div class="game-title">🚀 ASTROBOT</div>
+    <div class="game-subtitle">★ MISIÓN TABLA DEL 2 ★</div>
+  </div>
+
+  <div id="screen"></div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  DATOS DEL JUEGO
+// ═══════════════════════════════════════════════
+
+const LEVELS = {
+  1: {
+    name: "MISIÓN ASTROBOT",
+    subtitle: "Nivel Básico",
+    emoji: "🌙",
+    story: [
+      "¡Hola! Soy Astrobot, tu robot explorador espacial 🤖",
+      "Estoy en una misión para llegar a la Luna Cristal ✨",
+      "¡Pero las puertas de la nave están bloqueadas!",
+      "Solo se abren resolviendo multiplicaciones del 2.",
+      "¿Me ayudas a llegar? ¡JUNTOS PODEMOS! 🚀"
+    ],
+    questions: [
+      { q: "2 × 1 = ?", a: 2,  opts: [1, 2, 3],   msg: "¡Empezamos con todo! 💪" },
+      { q: "2 × 2 = ?", a: 4,  opts: [3, 4, 6],   msg: "¡Bien hecho, astronauta! ⭐" },
+      { q: "2 × 3 = ?", a: 6,  opts: [5, 6, 7],   msg: "¡La nave avanza! 🚀" },
+      { q: "2 × 4 = ?", a: 8,  opts: [6, 8, 10],  msg: "¡Increíble! Sigues brillando ✨" },
+      { q: "2 × 5 = ?", a: 10, opts: [8, 10, 12], msg: "¡Estamos a mitad de camino! 🌟" },
+      { q: "2 × 6 = ?", a: 12, opts: [10, 12, 14],"msg": "¡Perfecto! La Luna se acerca 🌙" },
+      { q: "2 × 7 = ?", a: 14, opts: [12, 14, 16],"msg": "¡Casi eres un experto! 🏆" },
+      { q: "2 × 8 = ?", a: 16, opts: [14, 16, 18],"msg": "¡Wow! ¡Qué cerebro espacial! 🧠" },
+      { q: "2 × 9 = ?", a: 18, opts: [16, 18, 20],"msg": "¡Solo queda una! ¡Tú puedes! 💥" },
+      { q: "2 × 10 = ?",a: 20, opts: [18, 20, 22],"msg": "¡MISIÓN COMPLETADA! ¡Eres GENIAL! 🎉" },
+    ],
+    maxEnergy: 5,
+    winMsg: "¡Llegamos a la Luna Cristal! Astrobot baila de alegría contigo. ¡INCREÍBLE!",
+  },
+  2: {
+    name: "MISIÓN AVANZADA",
+    subtitle: "Nivel Intermedio",
+    emoji: "⭐",
+    story: [
+      "¡Volviste! Eso me dice que eres MUY valiente 🤖💪",
+      "Esta vez debemos llegar al Planeta Áureo 🪐",
+      "Las preguntas están mezcladas y son más difíciles...",
+      "¡Pero sé que puedes hacerlo, explorador! 🌟"
+    ],
+    questions: [
+      { q: "2 × 0 = ?",        a: 0,  opts: [0, 2, 4],   msg: "¡Cero veces cualquier número es 0! 🧠" },
+      { q: "2 × 5 = ?",        a: 10, opts: [8, 10, 14],  msg: "¡Perfecto! ⭐" },
+      { q: "2 × 3 = ?",        a: 6,  opts: [4, 6, 8],   msg: "¡Genial! La nave acelera 🚀" },
+      { q: "2 × 10 = ?",       a: 20, opts: [18, 20, 22], msg: "¡2×10 es el poder máximo! 💥" },
+      { q: "2 × 7 = ?",        a: 14, opts: [12, 14, 16], msg: "¡Eso es! 🌟" },
+      { q: "¿? × 2 = 8",       a: 4,  opts: [3, 4, 5],   msg: "¡Resolviste una pregunta inversa! 🧩" },
+      { q: "2 × 9 = ?",        a: 18, opts: [16, 18, 20], msg: "¡Astrobot te aplaude! 👏" },
+      { q: "¿? × 2 = 12",      a: 6,  opts: [5, 6, 7],   msg: "¡Eres un detective espacial! 🔍" },
+      { q: "2 × 4 = ?",        a: 8,  opts: [6, 8, 10],  msg: "¡Ni se te escapa ninguna! 🎯" },
+      { q: "¿? × 2 = 20",      a: 10, opts: [8, 10, 12],  msg: "¡MISIÓN AVANZADA SUPERADA! 🏆" },
+    ],
+    maxEnergy: 5,
+    winMsg: "¡Llegamos al Planeta Áureo! Astrobot enciende sus luces de celebración. ¡MASTER ESPACIAL!",
+  },
+  3: {
+    name: "DESAFÍO ESPACIAL",
+    subtitle: "Nivel Difícil",
+    emoji: "💥",
+    story: [
+      "🚨 ¡ALERTA ESPACIAL! 🚨",
+      "¡Un meteorito amenaza el Planeta Tierra! ☄️",
+      "Solo Astrobot puede activar el escudo protector...",
+      "¡Pero necesita TU ayuda para resolver los códigos!",
+      "Tienes 3 vidas 💔💔💔 — ¡No las pierdas!",
+      "¡EL PLANETA DEPENDE DE TI! 🌍"
+    ],
+    questions: [
+      { q: "2 × 8 = ?",        a: 16, opts: [14, 16, 18], msg: "¡Código activado! 🛡️" },
+      { q: "¿? × 2 = 6",       a: 3,  opts: [2, 3, 4],   msg: "¡Detective espacial! 🔍" },
+      { q: "2 × 7 = ?",        a: 14, opts: [12, 14, 16], msg: "¡El escudo crece! ⚡" },
+      { q: "2 × 6 = ?",        a: 12, opts: [10, 12, 14], msg: "¡Excelente! 💪" },
+      { q: "¿? × 2 = 18",      a: 9,  opts: [8, 9, 10],  msg: "¡Increíble! 🌟" },
+      { q: "2 × 9 = ?",        a: 18, opts: [16, 18, 20], msg: "¡El meteorito retrocede! ☄️💥" },
+      { q: "¿? × 2 = 14",      a: 7,  opts: [6, 7, 8],   msg: "¡Genio espacial! 🧠" },
+      { q: "2 × 5 = ?",        a: 10, opts: [8, 10, 12],  msg: "¡Sigues fuerte! 💥" },
+      { q: "2 × 10 = ?",       a: 20, opts: [18, 20, 22], msg: "¡El escudo al máximo! 🛡️⚡" },
+      { q: "¿? × 2 = 16",      a: 8,  opts: [7, 8, 9],   msg: "¡PLANETA SALVADO! 🌍✨🎆" },
+    ],
+    maxLives: 3,
+    winMsg: "¡EL PLANETA TIERRA ESTÁ SALVO! Eres el HÉROE GALÁCTICO. ¡Astrobot y toda la galaxia te aplauden!",
+  }
+};
+
+const CORRECT_MSGS = [
+  "¡Correcto! ¡Eres increíble! 🌟",
+  "¡Exacto! ¡Qué listo/a! 🧠",
+  "¡Perfecto! ¡Lo sabías! 💪",
+  "¡Brillante! ¡Sigue así! ⭐",
+  "¡WOW! ¡Eso estuvo genial! 🚀",
+];
+const WRONG_MSGS = [
+  "¡Ups! ¡Tú puedes! 💪",
+  "¡Casi! La próxima la clavas 🌟",
+  "¡No pasa nada! ¡Sigue adelante! 🤖",
+  "¡Ánimo! ¡Eres un explorador valiente! 💫",
+];
+
+const STARS = ["⭐","🌟","💫","✨"];
+
+// ═══════════════════════════════════════════════
+//  ESTADO
+// ═══════════════════════════════════════════════
+
+let state = {
+  screen: 'menu', // menu | story | game | result
+  level: null,
+  questionIndex: 0,
+  score: 0,
+  energy: 5,
+  lives: 3,
+  stars: [],
+  answered: false,
+  selectedOpt: null,
+  storyIndex: 0,
+};
+
+function reset(level) {
+  const lv = LEVELS[level];
+  state = {
+    screen: 'story',
+    level,
+    questionIndex: 0,
+    score: 0,
+    energy: lv.maxEnergy || 5,
+    lives: lv.maxLives || 3,
+    stars: [],
+    answered: false,
+    selectedOpt: null,
+    storyIndex: 0,
+  };
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════
+
+function render() {
+  const el = document.getElementById('screen');
+  el.className = 'screen';
+  if (state.screen === 'menu') el.innerHTML = renderMenu();
+  else if (state.screen === 'story') el.innerHTML = renderStory();
+  else if (state.screen === 'game') el.innerHTML = renderGame();
+  else if (state.screen === 'result') el.innerHTML = renderResult();
+}
+
+function renderMenu() {
+  return `
+    <div class="panel" style="text-align:center; padding:24px 20px;">
+      <div style="font-size:3rem; margin-bottom:8px; animation: float 3s ease-in-out infinite; display:inline-block; filter: drop-shadow(0 0 12px rgba(0,245,255,0.5));">🤖</div>
+      <div style="font-family:'Orbitron',monospace; font-size:0.8rem; color:var(--neon-cyan); margin-bottom:4px;">ASTROBOT DICE:</div>
+      <div class="speech-bubble" style="margin:10px 0 18px;">
+        ¡Hola explorador/a! 👋<br>
+        Elige tu misión y ayúdame<br>a salvar la galaxia con<br>la <strong>tabla del 2</strong>! 🚀
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">⚡ ELIGE TU MISIÓN</div>
+
+      <button class="level-btn level-1" onclick="startLevel(1)">
+        <span class="lvl-title">🌙 JUEGO 1 — MISIÓN ASTROBOT</span>
+        <span class="lvl-desc">Tabla del 2 en orden · Perfecta para comenzar · 5 🔋</span>
+        <span class="level-badge">🟢</span>
+      </button>
+
+      <button class="level-btn level-2" onclick="startLevel(2)">
+        <span class="lvl-title">⭐ JUEGO 2 — MISIÓN AVANZADA</span>
+        <span class="lvl-desc">Preguntas mezcladas + inversas · Ojo con el 0 y el 10 · 5 🔋</span>
+        <span class="level-badge">🟡</span>
+      </button>
+
+      <button class="level-btn level-3" onclick="startLevel(3)">
+        <span class="lvl-title">💥 JUEGO 3 — DESAFÍO ESPACIAL</span>
+        <span class="lvl-desc">Modo difícil · 3 vidas · ¡Salva el planeta! 🌍</span>
+        <span class="level-badge">🔴</span>
+      </button>
+    </div>
+
+    <div class="panel" style="text-align:center;">
+      <div style="font-family:'Press Start 2P',monospace; font-size:0.5rem; color:rgba(232,244,255,0.4); line-height:2;">
+        +10 PTS POR RESPUESTA CORRECTA &nbsp;·&nbsp; GANA ⭐ ESTRELLAS<br>
+        🔋 ENERGÍA BAJA AL FALLAR &nbsp;·&nbsp; CONVIÉRTETE EN MAESTRO GALÁCTICO
+      </div>
+    </div>
+  `;
+}
+
+function renderStory() {
+  const lv = LEVELS[state.level];
+  const lines = lv.story;
+  const shown = lines.slice(0, state.storyIndex + 1);
+  const isLast = state.storyIndex >= lines.length - 1;
+
+  return `
+    <div class="panel" style="text-align:center;">
+      <div class="panel-title">${lv.emoji} ${lv.name} — ${lv.subtitle}</div>
+      <div class="astrobot-container">
+        <span class="astrobot" id="bot">🤖</span>
+      </div>
+      <div class="speech-bubble">
+        ${shown.map((l,i) => `<div style="margin:4px 0; ${i===shown.length-1?'color:white':'color:rgba(232,244,255,0.7)'}">${l}</div>`).join('')}
+      </div>
+      <button class="btn-next start" onclick="advanceStory()">
+        ${isLast ? '🚀 ¡COMENZAR MISIÓN!' : '▶ SIGUIENTE'}
+      </button>
+    </div>
+  `;
+}
+
+function renderGame() {
+  const lv = LEVELS[state.level];
+  const q = lv.questions[state.questionIndex];
+  const total = lv.questions.length;
+  const progress = ((state.questionIndex) / total) * 100;
+
+  const isL3 = state.level === 3;
+
+  // Build options
+  const labels = ['A','B','C'];
+  const optHtml = q.opts.map((opt, i) => {
+    let cls = '';
+    if (state.answered) {
+      if (opt === q.a) cls = 'correct';
+      else if (state.selectedOpt === opt) cls = 'wrong';
+    }
+    return `
+      <button class="option-btn ${cls}" ${state.answered?'disabled':''} onclick="selectAnswer(${opt})">
+        <span class="option-label">${labels[i]}</span>
+        ${opt}
+      </button>
+    `;
+  }).join('');
+
+  // Energy / Lives display
+  let statusHtml = '';
+  if (isL3) {
+    const heartsFull = '💔'.repeat(state.lives);
+    const heartsEmpty = '🖤'.repeat(3 - state.lives);
+    statusHtml = `
+      <div class="stat-block">
+        <span class="stat-label">VIDAS</span>
+        <div class="lives-display">${heartsFull}${heartsEmpty}</div>
+      </div>
+    `;
+  } else {
+    const battFull = '🔋'.repeat(state.energy);
+    const battEmpty = '🪫'.repeat(lv.maxEnergy - state.energy);
+    statusHtml = `
+      <div class="stat-block">
+        <span class="stat-label">ENERGÍA</span>
+        <div class="energy-display">${battFull}${battEmpty}</div>
+      </div>
+    `;
+  }
+
+  // Stars collected
+  const starsHtml = state.stars.length ? `
+    <div class="stat-block">
+      <span class="stat-label">ESTRELLAS</span>
+      <div class="stars-row">${state.stars.join('')}</div>
+    </div>
+  ` : '';
+
+  // Feedback
+  let feedbackHtml = '';
+  if (state.answered) {
+    const correct = state.selectedOpt === q.a;
+    feedbackHtml = `
+      <div class="feedback-box ${correct?'correct':'wrong'}">
+        ${correct
+          ? `✅ ¡CORRECTO! ${q.a} es la respuesta. ${CORRECT_MSGS[state.questionIndex % CORRECT_MSGS.length]}`
+          : `❌ ¡Casi! La respuesta era <strong>${q.a}</strong>. ${WRONG_MSGS[Math.floor(Math.random()*WRONG_MSGS.length)]}`
+        }
+        <br><small>${q.msg}</small>
+      </div>
+      <button class="btn-next" onclick="nextQuestion()">
+        ${state.questionIndex + 1 >= total ? '🏆 VER RESULTADO' : '▶ SIGUIENTE PREGUNTA'}
+      </button>
+    `;
+  }
+
+  return `
+    <div class="panel">
+      <div class="stats-bar">
+        <div class="stat-block">
+          <span class="stat-label">PUNTAJE</span>
+          <div class="stat-value">${state.score} PTS</div>
+        </div>
+        ${statusHtml}
+        ${starsHtml}
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${progress}%"></div>
+      </div>
+      <div style="font-family:'Press Start 2P',monospace; font-size:0.45rem; color:rgba(232,244,255,0.4); text-align:right; margin-bottom:12px;">
+        PREGUNTA ${state.questionIndex+1} / ${total}
+      </div>
+
+      <div class="astrobot-container">
+        <span class="astrobot" id="bot">🤖</span>
+      </div>
+
+      <div class="question-area">
+        <div class="mission-tag">${lv.emoji} ${lv.name.toUpperCase()}</div>
+        <div class="question-text">${q.q}</div>
+        <div class="options-grid">${optHtml}</div>
+      </div>
+
+      ${feedbackHtml}
+    </div>
+  `;
+}
+
+function renderResult() {
+  const lv = LEVELS[state.level];
+  const maxScore = lv.questions.length * 10;
+  const pct = (state.score / maxScore) * 100;
+
+  let rankTitle, rankEmoji, rankColor, rankMsg;
+  if (pct >= 90) {
+    rankTitle = "MAESTRO GALÁCTICO"; rankEmoji = "🏆"; rankColor = "gold";
+    rankMsg = "¡Eres una superestrella del espacio! Astrobot está emocionado. ¡LA GALAXIA ES TUYA! 🌌🎆";
+  } else if (pct >= 70) {
+    rankTitle = "EXPLORADOR ESTELAR"; rankEmoji = "⭐"; rankColor = "silver";
+    rankMsg = "¡Muy bien hecho! Eres un gran explorador espacial. ¡Sigue practicando y llegarás al top! 🚀";
+  } else if (pct >= 50) {
+    rankTitle = "PILOTO ESPACIAL"; rankEmoji = "🚀"; rankColor = "green";
+    rankMsg = "¡Buen trabajo! Tu nave está avanzando. ¡Con más práctica serás imparable! 💪";
+  } else {
+    rankTitle = "NOVATO CÓSMICO"; rankEmoji = "🌱"; rankColor = "green";
+    rankMsg = "¡Todo explorador comienza desde cero! Inténtalo de nuevo y verás cómo mejoras. ¡Astrobot cree en ti! 🤖💙";
+  }
+
+  const correctAnswers = state.score / 10;
+  const starsDisplay = state.stars.join('') || '—';
+
+  return `
+    <div class="panel ranking-screen">
+      <div class="panel-title" style="justify-content:center;">🏁 RESULTADO FINAL</div>
+
+      <span class="ranking-badge">${rankEmoji}</span>
+      <div class="ranking-title ${rankColor}">${rankTitle}</div>
+
+      <hr class="divider">
+
+      <div class="ranking-score">PUNTAJE: ${state.score} / ${maxScore} PTS</div>
+
+      <div class="medals-row">
+        <div class="medal">✅ ${correctAnswers} correctas</div>
+        <div class="medal">❌ ${lv.questions.length - correctAnswers} falladas</div>
+        <div class="medal">⭐ ${state.stars.length} estrellas</div>
+      </div>
+
+      <div class="astrobot-container">
+        <span class="astrobot" id="bot" style="font-size:3rem;">🤖</span>
+      </div>
+
+      <div class="speech-bubble">
+        ${lv.winMsg || rankMsg}
+      </div>
+
+      <div class="ranking-msg">${rankMsg}</div>
+
+      <div style="font-size:1.2rem; margin:10px 0;">${starsDisplay}</div>
+
+      <button class="btn-next restart" onclick="startLevel(${state.level})">
+        🔄 JUGAR DE NUEVO (Nivel ${state.level})
+      </button>
+      <button class="btn-next" style="margin-top:8px;" onclick="goMenu()">
+        🏠 MENÚ PRINCIPAL
+      </button>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════
+//  LÓGICA
+// ═══════════════════════════════════════════════
+
+function startLevel(n) {
+  reset(n);
+  render();
+}
+
+function advanceStory() {
+  const lv = LEVELS[state.level];
+  if (state.storyIndex < lv.story.length - 1) {
+    state.storyIndex++;
+    render();
+  } else {
+    state.screen = 'game';
+    render();
+  }
+}
+
+function selectAnswer(val) {
+  if (state.answered) return;
+  const lv = LEVELS[state.level];
+  const q = lv.questions[state.questionIndex];
+  const isL3 = state.level === 3;
+
+  state.answered = true;
+  state.selectedOpt = val;
+
+  const correct = val === q.a;
+
+  if (correct) {
+    state.score += 10;
+    // Award star every 2 correct answers
+    if (state.score % 20 === 0) {
+      state.stars.push(STARS[Math.floor(Math.random() * STARS.length)]);
+    }
+    // Animate bot
+    setTimeout(() => {
+      const bot = document.getElementById('bot');
+      if (bot) { bot.classList.add('bounce'); setTimeout(() => bot.classList.remove('bounce'), 500); }
+    }, 50);
+  } else {
+    if (isL3) {
+      state.lives = Math.max(0, state.lives - 1);
+    } else {
+      state.energy = Math.max(0, state.energy - 1);
+    }
+    setTimeout(() => {
+      const bot = document.getElementById('bot');
+      if (bot) { bot.classList.add('shake'); setTimeout(() => bot.classList.remove('shake'), 500); }
+    }, 50);
+  }
+
+  render();
+
+  // Auto-end if level 3 and lives = 0
+  if (isL3 && state.lives === 0) {
+    setTimeout(() => {
+      state.screen = 'result';
+      render();
+    }, 1600);
+  }
+}
+
+function nextQuestion() {
+  const lv = LEVELS[state.level];
+  const isL3 = state.level === 3;
+
+  // Check lives in L3
+  if (isL3 && state.lives === 0) {
+    state.screen = 'result';
+    render();
+    return;
+  }
+
+  if (state.questionIndex + 1 >= lv.questions.length) {
+    state.screen = 'result';
+    render();
+  } else {
+    state.questionIndex++;
+    state.answered = false;
+    state.selectedOpt = null;
+    state.screen = 'game';
+    render();
+  }
+}
+
+function goMenu() {
+  state.screen = 'menu';
+  render();
+}
+
+// Init
+render();
+</script>
+
+</body>
+</html>
