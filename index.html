@@ -6,444 +6,480 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🚀 ASTROBOT - Misión Tabla del 2</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Nunito:wght@700;800;900&display=swap');
 
+/* ═══════════════════════════════
+VARIABLES — PALETA ASTROBOT
+═══════════════════════════════ */
 :root {
-–space-black: #050a1a;
-–deep-blue: #0a1628;
-–neon-cyan: #00f5ff;
-–neon-green: #39ff14;
-–neon-yellow: #ffee00;
-–neon-pink: #ff006e;
-–neon-purple: #bc00ff;
-–star-white: #e8f4ff;
-–panel-bg: rgba(0,20,50,0.85);
-–panel-border: rgba(0,245,255,0.3);
+–bg-space:       #030d1e;
+–bg-panel:       #071428;
+–bg-panel-inner: #050f22;
+–bg-stat:        #060e20;
+–bg-option:      #081326;
+–bg-option-hover:#0c1e3a;
+–text-white:     #ffffff;
+–text-light:     #bfefff;
+–text-muted:     #6e9ab8;
+–accent:         #00d4ff;
+–accent-glow:    rgba(0,212,255,0.35);
+–accent-dim:     rgba(0,212,255,0.18);
+–correct:        #00ff88;
+–correct-bg:     rgba(0,255,136,0.12);
+–correct-border: rgba(0,255,136,0.55);
+–wrong:          #ff4d6d;
+–wrong-bg:       rgba(255,77,109,0.12);
+–wrong-border:   rgba(255,77,109,0.55);
+–border-panel:   rgba(0,212,255,0.22);
+–border-strong:  rgba(0,212,255,0.5);
+–yellow:         #ffe44d;
+–green-level:    #00ff88;
+–red-level:      #ff4d6d;
 }
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(–space-black);
-font-family: ‘Rajdhani’, sans-serif;
-color: var(–star-white);
+background: var(–bg-space);
+font-family: ‘Nunito’, sans-serif;
+color: var(–text-white);
 min-height: 100vh;
 overflow-x: hidden;
 position: relative;
 }
 
-/* STARFIELD */
+/* FONDO ESPACIAL */
 #stars {
 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-pointer-events: none; z-index: 0;
+pointer-events: none; z-index: 0; overflow: hidden;
+}
+#stars::before, #stars::after {
+content: ‘’; position: absolute; width: 100%; height: 100%;
+}
+#stars::before {
+background-image:
+radial-gradient(1px 1px at 8%  12%, rgba(255,255,255,0.9), transparent),
+radial-gradient(1px 1px at 22% 67%, rgba(255,255,255,0.7), transparent),
+radial-gradient(2px 2px at 38% 28%, rgba(255,255,255,1.0), transparent),
+radial-gradient(1px 1px at 54% 83%, rgba(255,255,255,0.6), transparent),
+radial-gradient(1px 1px at 68% 18%, rgba(255,255,255,0.8), transparent),
+radial-gradient(2px 2px at 83% 52%, rgba(255,255,255,0.9), transparent),
+radial-gradient(1px 1px at 91% 9%,  rgba(255,255,255,1.0), transparent),
+radial-gradient(1px 1px at 14% 91%, rgba(255,255,255,0.7), transparent),
+radial-gradient(1px 1px at 59% 44%, rgba(255,255,255,0.5), transparent),
+radial-gradient(1px 1px at 33% 37%, rgba(255,255,255,0.6), transparent),
+radial-gradient(1px 1px at 76% 76%, rgba(255,255,255,0.8), transparent),
+radial-gradient(2px 2px at 47% 4%,  rgba(0,212,255,0.8),  transparent),
+radial-gradient(1px 1px at 4%  55%, rgba(0,212,255,0.5),  transparent),
+radial-gradient(1px 1px at 96% 88%, rgba(255,238,0,0.6),  transparent),
+radial-gradient(1px 1px at 72% 33%, rgba(255,255,255,0.4), transparent),
+radial-gradient(1px 1px at 18% 48%, rgba(255,255,255,0.7), transparent),
+radial-gradient(1px 1px at 88% 22%, rgba(0,212,255,0.4),  transparent),
+radial-gradient(2px 2px at 62% 72%, rgba(255,255,255,0.5), transparent);
+animation: twinkle 6s ease-in-out infinite alternate;
+}
+#stars::after {
+background-image:
+radial-gradient(1px 1px at 5%  30%, rgba(255,255,255,0.5), transparent),
+radial-gradient(1px 1px at 44% 58%, rgba(255,255,255,0.6), transparent),
+radial-gradient(1px 1px at 79% 41%, rgba(255,255,255,0.4), transparent),
+radial-gradient(1px 1px at 29% 79%, rgba(0,212,255,0.3),  transparent),
+radial-gradient(1px 1px at 66% 14%, rgba(255,255,255,0.7), transparent),
+radial-gradient(1px 1px at 93% 63%, rgba(255,238,0,0.3),  transparent);
+animation: twinkle 9s ease-in-out infinite alternate-reverse;
+}
+@keyframes twinkle {
+0%   { opacity: 0.6; }
+50%  { opacity: 1.0; }
+100% { opacity: 0.7; }
+}
+body::before {
+content: ‘’;
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
 background:
-radial-gradient(1px 1px at 10% 15%, white, transparent),
-radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.8), transparent),
-radial-gradient(2px 2px at 40% 30%, white, transparent),
-radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.6), transparent),
-radial-gradient(1px 1px at 70% 20%, white, transparent),
-radial-gradient(2px 2px at 85% 55%, rgba(255,255,255,0.9), transparent),
-radial-gradient(1px 1px at 90% 10%, white, transparent),
-radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.7), transparent),
-radial-gradient(1px 1px at 60% 50%, white, transparent),
-radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.5), transparent),
-radial-gradient(1px 1px at 75% 75%, white, transparent),
-radial-gradient(2px 2px at 50% 5%, rgba(0,245,255,0.8), transparent),
-radial-gradient(1px 1px at 5% 50%, rgba(188,0,255,0.6), transparent),
-radial-gradient(1px 1px at 95% 85%, rgba(255,238,0,0.7), transparent),
-var(–space-black);
+radial-gradient(ellipse 60% 40% at 20% 30%, rgba(0,60,120,0.18) 0%, transparent 70%),
+radial-gradient(ellipse 50% 35% at 80% 70%, rgba(0,30,90,0.15) 0%, transparent 70%);
+pointer-events: none; z-index: 0;
 }
 
 #app {
 position: relative; z-index: 1;
-max-width: 680px;
+max-width: 660px;
 margin: 0 auto;
-padding: 16px;
+padding: 16px 16px 40px;
 min-height: 100vh;
 }
 
 /* HEADER */
-.game-header {
-text-align: center;
-padding: 20px 0 12px;
-}
+.game-header { text-align: center; padding: 22px 0 14px; }
 .game-title {
 font-family: ‘Orbitron’, monospace;
-font-size: clamp(1.4rem, 5vw, 2.2rem);
+font-size: clamp(1.6rem, 6vw, 2.4rem);
 font-weight: 900;
-color: var(–neon-cyan);
-text-shadow: 0 0 20px var(–neon-cyan), 0 0 40px rgba(0,245,255,0.4);
-letter-spacing: 3px;
-animation: flicker 4s infinite;
+color: var(–accent);
+text-shadow: 0 0 12px var(–accent), 0 0 28px rgba(0,212,255,0.5), 0 0 60px rgba(0,212,255,0.2);
+letter-spacing: 4px;
+animation: flicker 5s infinite;
 }
 .game-subtitle {
 font-family: ‘Press Start 2P’, monospace;
-font-size: 0.55rem;
-color: var(–neon-yellow);
-margin-top: 6px;
-letter-spacing: 1px;
+font-size: 0.52rem;
+color: var(–yellow);
+margin-top: 7px;
+letter-spacing: 2px;
+text-shadow: 0 0 8px rgba(255,228,77,0.5);
 }
-
 @keyframes flicker {
-0%,95%,100% { opacity:1; }
-96% { opacity:0.7; }
-97% { opacity:1; }
-98% { opacity:0.5; }
-99% { opacity:1; }
+0%,92%,100%{ opacity:1; }
+93%{ opacity:0.75; }
+94%{ opacity:1; }
+96%{ opacity:0.55; }
+97%{ opacity:1; }
 }
 
 /* PANEL */
 .panel {
-background: var(–panel-bg);
-border: 1px solid var(–panel-border);
-border-radius: 12px;
-padding: 20px;
+background: var(–bg-panel);
+border: 1.5px solid var(–border-panel);
+border-radius: 16px;
+padding: 22px 20px;
 margin: 12px 0;
-backdrop-filter: blur(8px);
-box-shadow: 0 0 20px rgba(0,245,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+box-shadow:
+0 0 0 1px rgba(0,0,0,0.5),
+0 4px 24px rgba(0,0,0,0.5),
+0 0 40px rgba(0,212,255,0.04),
+inset 0 1px 0 rgba(255,255,255,0.04);
 }
 .panel-title {
 font-family: ‘Orbitron’, monospace;
-font-size: 0.75rem;
-color: var(–neon-cyan);
+font-size: 0.72rem;
+font-weight: 700;
+color: var(–accent);
 letter-spacing: 2px;
-margin-bottom: 12px;
+margin-bottom: 14px;
 display: flex;
 align-items: center;
 gap: 8px;
+text-shadow: 0 0 8px var(–accent-glow);
 }
 
-/* LEVEL SELECTOR */
+/* LEVEL BUTTONS */
 .level-btn {
-display: block;
-width: 100%;
-background: rgba(0,10,30,0.8);
-border: 1px solid var(–panel-border);
-border-radius: 10px;
-padding: 16px 20px;
+display: block; width: 100%;
+background: var(–bg-panel-inner);
+border: 1.5px solid var(–border-panel);
+border-radius: 12px;
+padding: 18px 52px 18px 20px;
 margin: 10px 0;
-cursor: pointer;
-text-align: left;
-transition: all 0.2s;
-color: var(–star-white);
-font-family: ‘Rajdhani’, sans-serif;
-position: relative;
-overflow: hidden;
+cursor: pointer; text-align: left;
+transition: all 0.18s ease;
+color: var(–text-white);
+font-family: ‘Nunito’, sans-serif;
+position: relative; overflow: hidden;
 }
 .level-btn:hover {
-border-color: var(–neon-cyan);
-box-shadow: 0 0 15px rgba(0,245,255,0.2);
-transform: translateY(-1px);
+border-color: var(–accent);
+background: var(–bg-option-hover);
+box-shadow: 0 0 18px var(–accent-glow), inset 0 1px 0 rgba(255,255,255,0.05);
+transform: translateY(-2px);
 }
-.level-btn.active { border-color: var(–neon-green); box-shadow: 0 0 15px rgba(57,255,20,0.25); }
 .level-btn .lvl-title {
 font-family: ‘Orbitron’, monospace;
-font-size: 0.85rem;
-font-weight: 700;
-display: block;
-margin-bottom: 4px;
+font-size: 0.82rem; font-weight: 700;
+display: block; margin-bottom: 5px;
 }
-.level-btn .lvl-desc { font-size: 0.95rem; color: rgba(232,244,255,0.7); }
-.level-1 .lvl-title { color: var(–neon-green); }
-.level-2 .lvl-title { color: var(–neon-yellow); }
-.level-3 .lvl-title { color: var(–neon-pink); }
+.level-btn .lvl-desc {
+font-size: 0.95rem; font-weight: 700;
+color: var(–text-light); line-height: 1.4;
+}
+.level-1 .lvl-title { color: var(–green-level); text-shadow: 0 0 8px rgba(0,255,136,0.5); }
+.level-2 .lvl-title { color: var(–yellow);      text-shadow: 0 0 8px rgba(255,228,77,0.5); }
+.level-3 .lvl-title { color: var(–red-level);   text-shadow: 0 0 8px rgba(255,77,109,0.5); }
 .level-badge {
-position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
-font-size: 1.6rem;
+position: absolute; right: 18px; top: 50%;
+transform: translateY(-50%); font-size: 1.7rem;
 }
 
-/* STATS BAR */
+/* STATS */
 .stats-bar {
-display: flex;
-gap: 12px;
-flex-wrap: wrap;
-align-items: center;
-margin-bottom: 14px;
+display: flex; gap: 10px; flex-wrap: wrap;
+align-items: stretch; margin-bottom: 14px;
 }
 .stat-block {
-flex: 1;
-min-width: 120px;
-background: rgba(0,10,30,0.6);
-border: 1px solid rgba(0,245,255,0.15);
-border-radius: 8px;
-padding: 10px 14px;
+flex: 1; min-width: 110px;
+background: var(–bg-stat);
+border: 1.5px solid rgba(0,212,255,0.18);
+border-radius: 10px; padding: 10px 14px 12px;
 }
 .stat-label {
 font-family: ‘Press Start 2P’, monospace;
-font-size: 0.45rem;
-color: rgba(232,244,255,0.5);
-display: block;
-margin-bottom: 4px;
+font-size: 0.42rem; color: var(–text-muted);
+display: block; margin-bottom: 6px; letter-spacing: 1px;
 }
 .stat-value {
 font-family: ‘Orbitron’, monospace;
-font-size: 1.1rem;
-font-weight: 700;
-color: var(–neon-yellow);
+font-size: 1.15rem; font-weight: 900;
+color: var(–yellow);
+text-shadow: 0 0 10px rgba(255,228,77,0.4);
+line-height: 1;
 }
-.stat-value.cyan { color: var(–neon-cyan); }
-.stat-value.green { color: var(–neon-green); }
-.stat-value.pink { color: var(–neon-pink); }
-
-/* ENERGY BAR */
-.energy-display { font-size: 1.3rem; letter-spacing: 2px; }
+.stat-value.cyan  { color: var(–accent);   text-shadow: 0 0 10px var(–accent-glow); }
+.stat-value.green { color: var(–correct);  text-shadow: 0 0 10px rgba(0,255,136,0.4); }
+.stat-value.pink  { color: var(–red-level);text-shadow: 0 0 10px rgba(255,77,109,0.4); }
+.energy-display { font-size: 1.25rem; letter-spacing: 3px; line-height: 1.2; }
+.lives-display  { font-size: 1.35rem; letter-spacing: 3px; line-height: 1.2; }
 
 /* ASTROBOT */
-.astrobot-container {
-text-align: center;
-padding: 10px 0;
-position: relative;
-}
+.astrobot-container { text-align: center; padding: 6px 0 4px; }
 .astrobot {
-font-size: 3.5rem;
-display: inline-block;
+font-size: 3.8rem; display: inline-block;
 animation: float 3s ease-in-out infinite;
-filter: drop-shadow(0 0 12px rgba(0,245,255,0.5));
+filter: drop-shadow(0 0 14px rgba(0,212,255,0.6)) drop-shadow(0 4px 8px rgba(0,0,0,0.5));
 }
 @keyframes float {
-0%,100% { transform: translateY(0); }
-50% { transform: translateY(-8px); }
+0%,100% { transform: translateY(0px) rotate(0deg); }
+50%      { transform: translateY(-9px) rotate(1deg); }
 }
-.astrobot.shake {
-animation: shake 0.4s;
-}
+.astrobot.shake { animation: shake 0.4s ease; }
 @keyframes shake {
-0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}
+0%,100%{ transform:translateX(0) }
+20%{ transform:translateX(-7px) }
+40%{ transform:translateX(7px) }
+60%{ transform:translateX(-5px) }
+80%{ transform:translateX(5px) }
 }
-.astrobot.bounce {
-animation: bounce 0.4s;
-}
-@keyframes bounce {
-0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.1)}
-}
-.speech-bubble {
-background: rgba(0,245,255,0.1);
-border: 1px solid rgba(0,245,255,0.4);
-border-radius: 12px;
-padding: 12px 16px;
-margin: 10px 0;
-font-size: 1.05rem;
-line-height: 1.5;
-font-weight: 600;
-position: relative;
-}
-.speech-bubble::before {
-content: ‘▲’;
-position: absolute;
-top: -12px;
-left: 50%;
-transform: translateX(-50%);
-color: rgba(0,245,255,0.4);
-font-size: 0.8rem;
+.astrobot.bounce { animation: abounce 0.45s ease; }
+@keyframes abounce {
+0%,100%{ transform:translateY(0) scale(1) }
+40%{ transform:translateY(-14px) scale(1.12) }
+70%{ transform:translateY(-6px) scale(1.05) }
 }
 
-/* QUESTION */
+/* SPEECH BUBBLE */
+.speech-bubble {
+background: rgba(0,212,255,0.07);
+border: 1.5px solid rgba(0,212,255,0.3);
+border-radius: 14px; padding: 14px 18px;
+margin: 8px 0 12px;
+font-size: 1.05rem; font-weight: 800;
+color: var(–text-white); line-height: 1.55;
+text-align: center; position: relative;
+}
+.speech-bubble::before {
+content: ‘▲’; position: absolute;
+top: -12px; left: 50%; transform: translateX(-50%);
+color: rgba(0,212,255,0.35); font-size: 0.85rem;
+}
+
+/* PROGRESS */
+.progress-track {
+background: rgba(0,0,0,0.4);
+border: 1px solid rgba(0,212,255,0.12);
+border-radius: 6px; height: 8px;
+margin: 6px 0; overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–accent), var(–correct));
+border-radius: 6px; transition: width 0.45s ease;
+box-shadow: 0 0 10px rgba(0,212,255,0.6);
+}
+.question-counter {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.42rem; color: var(–text-muted);
+text-align: right; margin: 4px 0 12px; letter-spacing: 1px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUESTION — MÁXIMO CONTRASTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .question-area { text-align: center; }
 .mission-tag {
 font-family: ‘Press Start 2P’, monospace;
-font-size: 0.55rem;
-color: rgba(232,244,255,0.5);
-letter-spacing: 2px;
-margin-bottom: 8px;
+font-size: 0.5rem; color: var(–text-muted);
+letter-spacing: 2px; margin-bottom: 10px; display: block;
 }
 .question-text {
+display: block;
 font-family: ‘Orbitron’, monospace;
-font-size: clamp(1.3rem, 5vw, 1.8rem);
+font-size: clamp(1.7rem, 7vw, 2.4rem);
 font-weight: 900;
-color: white;
-margin: 10px 0 16px;
-text-shadow: 0 0 20px rgba(255,238,0,0.4);
-}
-.question-num {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.5rem;
-color: var(–neon-yellow);
-margin-bottom: 4px;
+color: #ffffff !important;
+background: var(–bg-panel-inner);
+border: 2px solid var(–border-strong);
+border-radius: 14px;
+padding: 18px 16px;
+margin: 0 0 16px;
+letter-spacing: 2px; text-align: center;
+text-shadow: 0 0 16px rgba(0,212,255,0.7), 0 2px 4px rgba(0,0,0,0.9);
+box-shadow: 0 0 24px rgba(0,212,255,0.12), inset 0 2px 0 rgba(255,255,255,0.04);
+line-height: 1.2;
 }
 
 /* OPTIONS */
 .options-grid {
-display: grid;
-grid-template-columns: 1fr 1fr 1fr;
-gap: 10px;
-margin: 14px 0;
+display: grid; grid-template-columns: 1fr 1fr 1fr;
+gap: 10px; margin: 0 0 4px;
 }
 .option-btn {
-background: rgba(0,10,30,0.7);
-border: 1.5px solid rgba(0,245,255,0.25);
-border-radius: 10px;
-padding: 14px 8px;
+background: var(–bg-option);
+border: 2px solid rgba(0,212,255,0.3);
+border-radius: 12px; padding: 16px 8px 14px;
 cursor: pointer;
 font-family: ‘Orbitron’, monospace;
-font-weight: 700;
-font-size: 1.1rem;
-color: white;
-transition: all 0.15s;
-text-align: center;
+font-weight: 900; font-size: 1.25rem;
+color: #ffffff;
+transition: all 0.15s ease; text-align: center; line-height: 1;
 }
 .option-btn:hover:not(:disabled) {
-border-color: var(–neon-cyan);
-background: rgba(0,245,255,0.1);
-transform: scale(1.04);
-box-shadow: 0 0 12px rgba(0,245,255,0.2);
+background: var(–bg-option-hover);
+border-color: var(–accent);
+color: #ffffff;
+box-shadow: 0 0 16px var(–accent-glow);
+transform: scale(1.05) translateY(-1px);
 }
 .option-btn.correct {
-border-color: var(–neon-green) !important;
-background: rgba(57,255,20,0.15) !important;
-box-shadow: 0 0 15px rgba(57,255,20,0.3);
+background: var(–correct-bg) !important;
+border-color: var(–correct) !important;
+color: var(–correct) !important;
+box-shadow: 0 0 20px rgba(0,255,136,0.35) !important;
+text-shadow: 0 0 8px rgba(0,255,136,0.6);
 }
 .option-btn.wrong {
-border-color: var(–neon-pink) !important;
-background: rgba(255,0,110,0.15) !important;
+background: var(–wrong-bg) !important;
+border-color: var(–wrong) !important;
+color: var(–wrong) !important;
+box-shadow: 0 0 14px rgba(255,77,109,0.3) !important;
 }
 .option-btn:disabled { cursor: default; }
 .option-label {
 font-family: ‘Press Start 2P’, monospace;
-font-size: 0.5rem;
-display: block;
-color: rgba(232,244,255,0.4);
-margin-bottom: 4px;
+font-size: 0.45rem; display: block;
+color: var(–text-muted); margin-bottom: 6px; letter-spacing: 1px;
 }
 
 /* FEEDBACK */
 .feedback-box {
-border-radius: 10px;
-padding: 14px 16px;
-margin: 12px 0;
-font-size: 1.05rem;
-font-weight: 600;
-line-height: 1.5;
-animation: fadeIn 0.3s ease;
+border-radius: 12px; padding: 16px 18px;
+margin: 14px 0 10px;
+font-size: 1.05rem; font-weight: 800;
+line-height: 1.55; animation: fadeSlideIn 0.3s ease;
 }
 .feedback-box.correct {
-background: rgba(57,255,20,0.1);
-border: 1px solid rgba(57,255,20,0.4);
-color: var(–neon-green);
+background: var(–correct-bg);
+border: 2px solid var(–correct-border);
+color: var(–correct);
+text-shadow: 0 0 6px rgba(0,255,136,0.3);
 }
 .feedback-box.wrong {
-background: rgba(255,0,110,0.1);
-border: 1px solid rgba(255,0,110,0.4);
-color: #ff6b9d;
+background: var(–wrong-bg);
+border: 2px solid var(–wrong-border);
+color: var(–wrong);
+text-shadow: 0 0 6px rgba(255,77,109,0.3);
 }
-@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.feedback-box strong { color: #ffffff; font-size: 1.1em; }
+.feedback-box small {
+display: block; margin-top: 6px;
+font-size: 0.92rem; color: var(–text-light); font-weight: 700;
+}
+@keyframes fadeSlideIn {
+from { opacity:0; transform:translateY(10px); }
+to   { opacity:1; transform:translateY(0); }
+}
 
-/* NEXT BUTTON */
+/* BUTTONS */
 .btn-next {
 width: 100%;
-background: linear-gradient(135deg, rgba(0,245,255,0.2), rgba(0,100,200,0.2));
-border: 1.5px solid var(–neon-cyan);
-border-radius: 10px;
-padding: 14px;
+background: linear-gradient(135deg, rgba(0,212,255,0.15) 0%, rgba(0,100,180,0.2) 100%);
+border: 2px solid var(–accent);
+border-radius: 12px; padding: 15px 20px;
 cursor: pointer;
 font-family: ‘Orbitron’, monospace;
-font-weight: 700;
-font-size: 0.85rem;
-color: var(–neon-cyan);
-letter-spacing: 2px;
-transition: all 0.2s;
-margin-top: 10px;
+font-weight: 700; font-size: 0.82rem;
+color: var(–accent); letter-spacing: 2px;
+transition: all 0.18s ease; margin-top: 10px;
+text-shadow: 0 0 8px var(–accent-glow);
+box-shadow: 0 2px 12px rgba(0,0,0,0.3);
 }
 .btn-next:hover {
-background: rgba(0,245,255,0.2);
-box-shadow: 0 0 20px rgba(0,245,255,0.3);
+background: rgba(0,212,255,0.22);
+box-shadow: 0 0 22px var(–accent-glow), 0 2px 12px rgba(0,0,0,0.3);
+transform: translateY(-1px);
 }
 .btn-next.start {
-background: linear-gradient(135deg, rgba(57,255,20,0.2), rgba(0,150,50,0.2));
-border-color: var(–neon-green);
-color: var(–neon-green);
+background: linear-gradient(135deg, rgba(0,255,136,0.15) 0%, rgba(0,120,70,0.2) 100%);
+border-color: var(–correct); color: var(–correct);
+text-shadow: 0 0 8px rgba(0,255,136,0.4);
 }
+.btn-next.start:hover { background: rgba(0,255,136,0.2); box-shadow: 0 0 22px rgba(0,255,136,0.3); }
 .btn-next.restart {
-background: linear-gradient(135deg, rgba(255,238,0,0.2), rgba(200,100,0,0.2));
-border-color: var(–neon-yellow);
-color: var(–neon-yellow);
+background: linear-gradient(135deg, rgba(255,228,77,0.15) 0%, rgba(180,120,0,0.15) 100%);
+border-color: var(–yellow); color: var(–yellow);
+text-shadow: 0 0 8px rgba(255,228,77,0.4);
+}
+.btn-next.restart:hover { background: rgba(255,228,77,0.18); box-shadow: 0 0 22px rgba(255,228,77,0.25); }
+
+/* STARS ROW */
+.stars-row { font-size: 1.4rem; letter-spacing: 4px; line-height: 1; }
+
+/* SCREEN TRANSITION */
+.screen { animation: screenIn 0.32s ease; }
+@keyframes screenIn {
+from { opacity:0; transform:translateY(14px); }
+to   { opacity:1; transform:translateY(0); }
 }
 
-/* PROGRESS BAR */
-.progress-track {
-background: rgba(0,10,30,0.7);
-border: 1px solid rgba(0,245,255,0.15);
-border-radius: 4px;
-height: 6px;
-margin: 8px 0;
-overflow: hidden;
-}
-.progress-fill {
-height: 100%;
-background: linear-gradient(90deg, var(–neon-cyan), var(–neon-green));
-border-radius: 4px;
-transition: width 0.4s ease;
-box-shadow: 0 0 8px rgba(0,245,255,0.5);
-}
+/* DIVIDER */
+.divider { border: none; border-top: 1px solid rgba(0,212,255,0.12); margin: 14px 0; }
 
-/* RANKING SCREEN */
+/* RANKING */
 .ranking-screen { text-align: center; }
 .ranking-badge {
-font-size: 4rem;
-display: block;
-margin: 10px 0;
-animation: pulse 1.5s infinite;
+font-size: 4.5rem; display: block;
+margin: 6px 0 4px; animation: pulse 1.6s ease-in-out infinite;
+filter: drop-shadow(0 0 16px rgba(255,228,77,0.5));
 }
 @keyframes pulse {
-0%,100%{transform:scale(1)} 50%{transform:scale(1.08)}
+0%,100%{ transform:scale(1) rotate(0deg); }
+50%{ transform:scale(1.1) rotate(3deg); }
 }
 .ranking-title {
 font-family: ‘Orbitron’, monospace;
-font-size: clamp(1.2rem, 4vw, 1.8rem);
-font-weight: 900;
-margin: 8px 0;
+font-size: clamp(1.2rem, 5vw, 1.9rem);
+font-weight: 900; margin: 8px 0 4px; letter-spacing: 1px;
 }
-.ranking-title.gold { color: var(–neon-yellow); text-shadow: 0 0 20px rgba(255,238,0,0.5); }
-.ranking-title.silver { color: #a8c8ff; text-shadow: 0 0 20px rgba(168,200,255,0.5); }
-.ranking-title.green { color: var(–neon-green); text-shadow: 0 0 20px rgba(57,255,20,0.5); }
+.ranking-title.gold   { color: var(–yellow);  text-shadow: 0 0 20px rgba(255,228,77,0.6); }
+.ranking-title.silver { color: #a8d8ff;        text-shadow: 0 0 20px rgba(168,216,255,0.5); }
+.ranking-title.green  { color: var(–correct); text-shadow: 0 0 20px rgba(0,255,136,0.5); }
 .ranking-score {
 font-family: ‘Press Start 2P’, monospace;
-font-size: 0.9rem;
-color: var(–neon-cyan);
-margin: 12px 0;
+font-size: 0.85rem; color: var(–accent);
+margin: 14px 0; text-shadow: 0 0 10px var(–accent-glow);
 }
 .ranking-msg {
-font-size: 1.1rem;
-line-height: 1.6;
-color: rgba(232,244,255,0.85);
-margin: 10px 0 16px;
+font-size: 1.1rem; font-weight: 800;
+line-height: 1.6; color: var(–text-light); margin: 10px 0 16px;
 }
 
-/* STARS COLLECTED */
-.stars-row {
-font-size: 1.5rem;
-letter-spacing: 4px;
-margin: 8px 0;
-}
-
-/* SCREEN TRANSITIONS */
-.screen { animation: screenIn 0.35s ease; }
-@keyframes screenIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-/* DIVIDER */
-.divider {
-border: none;
-border-top: 1px solid rgba(0,245,255,0.1);
-margin: 12px 0;
-}
-
-/* LIVES (level 3) */
-.lives-display { font-size: 1.4rem; letter-spacing: 3px; }
-
-/* MEDALS ROW */
-.medals-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 8px 0; }
+/* MEDALS */
+.medals-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 10px 0; }
 .medal {
-background: rgba(0,10,30,0.7);
-border: 1px solid rgba(0,245,255,0.2);
-border-radius: 8px;
-padding: 6px 12px;
-font-size: 0.9rem;
-font-weight: 600;
+background: var(–bg-stat);
+border: 1.5px solid rgba(0,212,255,0.2);
+border-radius: 8px; padding: 7px 14px;
+font-size: 0.92rem; font-weight: 800; color: var(–text-light);
 }
 
 /* SCROLLBAR */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.25); border-radius: 4px; }
+
+.menu-hint {
+font-family: ‘Press Start 2P’, monospace;
+font-size: 0.48rem; color: var(–text-muted);
+line-height: 2.2; letter-spacing: 0.5px;
+}
 </style>
 
 </head>
@@ -567,7 +603,7 @@ const STARS = ["⭐","🌟","💫","✨"];
 // ═══════════════════════════════════════════════
 
 let state = {
-  screen: 'menu', // menu | story | game | result
+  screen: 'menu',
   level: null,
   questionIndex: 0,
   score: 0,
@@ -610,12 +646,12 @@ function render() {
 
 function renderMenu() {
   return `
-    <div class="panel" style="text-align:center; padding:24px 20px;">
-      <div style="font-size:3rem; margin-bottom:8px; animation: float 3s ease-in-out infinite; display:inline-block; filter: drop-shadow(0 0 12px rgba(0,245,255,0.5));">🤖</div>
-      <div style="font-family:'Orbitron',monospace; font-size:0.8rem; color:var(--neon-cyan); margin-bottom:4px;">ASTROBOT DICE:</div>
-      <div class="speech-bubble" style="margin:10px 0 18px;">
+    <div class="panel" style="text-align:center; padding:26px 20px;">
+      <div style="font-size:3.5rem; margin-bottom:10px; display:inline-block; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 14px rgba(0,212,255,0.6));">🤖</div>
+      <div style="font-family:'Orbitron',monospace; font-size:0.72rem; color:var(--accent); margin-bottom:6px; letter-spacing:2px; text-shadow: 0 0 8px var(--accent-glow);">ASTROBOT DICE:</div>
+      <div class="speech-bubble" style="margin:10px 0 20px;">
         ¡Hola explorador/a! 👋<br>
-        Elige tu misión y ayúdame<br>a salvar la galaxia con<br>la <strong>tabla del 2</strong>! 🚀
+        Elige tu misión y ayúdame<br>a salvar la galaxia con<br>la <strong style="color:var(--accent);">tabla del 2</strong>! 🚀
       </div>
     </div>
 
@@ -642,7 +678,7 @@ function renderMenu() {
     </div>
 
     <div class="panel" style="text-align:center;">
-      <div style="font-family:'Press Start 2P',monospace; font-size:0.5rem; color:rgba(232,244,255,0.4); line-height:2;">
+      <div class="menu-hint">
         +10 PTS POR RESPUESTA CORRECTA &nbsp;·&nbsp; GANA ⭐ ESTRELLAS<br>
         🔋 ENERGÍA BAJA AL FALLAR &nbsp;·&nbsp; CONVIÉRTETE EN MAESTRO GALÁCTICO
       </div>
@@ -658,12 +694,12 @@ function renderStory() {
 
   return `
     <div class="panel" style="text-align:center;">
-      <div class="panel-title">${lv.emoji} ${lv.name} — ${lv.subtitle}</div>
+      <div class="panel-title" style="justify-content:center;">${lv.emoji} ${lv.name} — ${lv.subtitle}</div>
       <div class="astrobot-container">
         <span class="astrobot" id="bot">🤖</span>
       </div>
       <div class="speech-bubble">
-        ${shown.map((l,i) => `<div style="margin:4px 0; ${i===shown.length-1?'color:white':'color:rgba(232,244,255,0.7)'}">${l}</div>`).join('')}
+        ${shown.map((l,i) => `<div style="margin:5px 0; color:${i===shown.length-1?'#ffffff':'var(--text-light)'}; font-weight:${i===shown.length-1?'900':'700'};">${l}</div>`).join('')}
       </div>
       <button class="btn-next start" onclick="advanceStory()">
         ${isLast ? '🚀 ¡COMENZAR MISIÓN!' : '▶ SIGUIENTE'}
@@ -733,10 +769,10 @@ function renderGame() {
     feedbackHtml = `
       <div class="feedback-box ${correct?'correct':'wrong'}">
         ${correct
-          ? `✅ ¡CORRECTO! ${q.a} es la respuesta. ${CORRECT_MSGS[state.questionIndex % CORRECT_MSGS.length]}`
+          ? `✅ ¡CORRECTO! <strong>${q.a}</strong> es la respuesta. ${CORRECT_MSGS[state.questionIndex % CORRECT_MSGS.length]}`
           : `❌ ¡Casi! La respuesta era <strong>${q.a}</strong>. ${WRONG_MSGS[Math.floor(Math.random()*WRONG_MSGS.length)]}`
         }
-        <br><small>${q.msg}</small>
+        <small>${q.msg}</small>
       </div>
       <button class="btn-next" onclick="nextQuestion()">
         ${state.questionIndex + 1 >= total ? '🏆 VER RESULTADO' : '▶ SIGUIENTE PREGUNTA'}
@@ -757,7 +793,7 @@ function renderGame() {
       <div class="progress-track">
         <div class="progress-fill" style="width:${progress}%"></div>
       </div>
-      <div style="font-family:'Press Start 2P',monospace; font-size:0.45rem; color:rgba(232,244,255,0.4); text-align:right; margin-bottom:12px;">
+      <div class="question-counter">
         PREGUNTA ${state.questionIndex+1} / ${total}
       </div>
 
@@ -766,7 +802,7 @@ function renderGame() {
       </div>
 
       <div class="question-area">
-        <div class="mission-tag">${lv.emoji} ${lv.name.toUpperCase()}</div>
+        <span class="mission-tag">${lv.emoji} ${lv.name.toUpperCase()}</span>
         <div class="question-text">${q.q}</div>
         <div class="options-grid">${optHtml}</div>
       </div>
@@ -817,7 +853,7 @@ function renderResult() {
       </div>
 
       <div class="astrobot-container">
-        <span class="astrobot" id="bot" style="font-size:3rem;">🤖</span>
+        <span class="astrobot" id="bot" style="font-size:3.2rem;">🤖</span>
       </div>
 
       <div class="speech-bubble">
@@ -826,7 +862,7 @@ function renderResult() {
 
       <div class="ranking-msg">${rankMsg}</div>
 
-      <div style="font-size:1.2rem; margin:10px 0;">${starsDisplay}</div>
+      <div style="font-size:1.3rem; margin:8px 0; letter-spacing:4px;">${starsDisplay}</div>
 
       <button class="btn-next restart" onclick="startLevel(${state.level})">
         🔄 JUGAR DE NUEVO (Nivel ${state.level})
