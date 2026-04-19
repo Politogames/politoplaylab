@@ -1,975 +1,490 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚀 ASTROBOT - Misión Tabla del 2</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Nunito:wght@700;800;900&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 ASTROBOT - Misión Tabla del 2</title>
+  <style>
+    :root {
+      --bg-1: #04111f;
+      --bg-2: #0a2340;
+      --panel: rgba(7, 20, 40, 0.9);
+      --panel-2: rgba(10, 33, 64, 0.95);
+      --line: rgba(0, 212, 255, 0.35);
+      --text: #ffffff;
+      --muted: #c8e7ff;
+      --accent: #15d6ff;
+      --accent-2: #00ffb3;
+      --yellow: #ffd84d;
+      --good: #19e38a;
+      --bad: #ff5c7a;
+      --btn: linear-gradient(135deg, #00d4ff, #1e8fff);
+      --shadow: 0 18px 45px rgba(0,0,0,0.35);
+    }
 
-/* ═══════════════════════════════
-VARIABLES — PALETA ASTROBOT
-═══════════════════════════════ */
-:root {
-–bg-space:       #030d1e;
-–bg-panel:       #071428;
-–bg-panel-inner: #050f22;
-–bg-stat:        #060e20;
-–bg-option:      #081326;
-–bg-option-hover:#0c1e3a;
-–text-white:     #ffffff;
-–text-light:     #bfefff;
-–text-muted:     #6e9ab8;
-–accent:         #00d4ff;
-–accent-glow:    rgba(0,212,255,0.35);
-–accent-dim:     rgba(0,212,255,0.18);
-–correct:        #00ff88;
-–correct-bg:     rgba(0,255,136,0.12);
-–correct-border: rgba(0,255,136,0.55);
-–wrong:          #ff4d6d;
-–wrong-bg:       rgba(255,77,109,0.12);
-–wrong-border:   rgba(255,77,109,0.55);
-–border-panel:   rgba(0,212,255,0.22);
-–border-strong:  rgba(0,212,255,0.5);
-–yellow:         #ffe44d;
-–green-level:    #00ff88;
-–red-level:      #ff4d6d;
-}
+    * { box-sizing: border-box; }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(21,214,255,0.12), transparent 25%),
+        radial-gradient(circle at 80% 10%, rgba(255,216,77,0.12), transparent 20%),
+        radial-gradient(circle at 50% 80%, rgba(0,255,179,0.08), transparent 22%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-1));
+      overflow-x: hidden;
+    }
 
-body {
-background: var(–bg-space);
-font-family: ‘Nunito’, sans-serif;
-color: var(–text-white);
-min-height: 100vh;
-overflow-x: hidden;
-position: relative;
-}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1.5px 1.5px at 20% 70%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(2px 2px at 35% 30%, rgba(255,255,255,.85), transparent 60%),
+        radial-gradient(1.5px 1.5px at 55% 15%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(2px 2px at 70% 40%, rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1.5px 1.5px at 85% 75%, rgba(255,255,255,.75), transparent 60%),
+        radial-gradient(2px 2px at 92% 18%, rgba(255,255,255,.85), transparent 60%),
+        radial-gradient(1.5px 1.5px at 62% 62%, rgba(255,255,255,.8), transparent 60%);
+      opacity: .9;
+    }
 
-/* FONDO ESPACIAL */
-#stars {
-position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-pointer-events: none; z-index: 0; overflow: hidden;
-}
-#stars::before, #stars::after {
-content: ‘’; position: absolute; width: 100%; height: 100%;
-}
-#stars::before {
-background-image:
-radial-gradient(1px 1px at 8%  12%, rgba(255,255,255,0.9), transparent),
-radial-gradient(1px 1px at 22% 67%, rgba(255,255,255,0.7), transparent),
-radial-gradient(2px 2px at 38% 28%, rgba(255,255,255,1.0), transparent),
-radial-gradient(1px 1px at 54% 83%, rgba(255,255,255,0.6), transparent),
-radial-gradient(1px 1px at 68% 18%, rgba(255,255,255,0.8), transparent),
-radial-gradient(2px 2px at 83% 52%, rgba(255,255,255,0.9), transparent),
-radial-gradient(1px 1px at 91% 9%,  rgba(255,255,255,1.0), transparent),
-radial-gradient(1px 1px at 14% 91%, rgba(255,255,255,0.7), transparent),
-radial-gradient(1px 1px at 59% 44%, rgba(255,255,255,0.5), transparent),
-radial-gradient(1px 1px at 33% 37%, rgba(255,255,255,0.6), transparent),
-radial-gradient(1px 1px at 76% 76%, rgba(255,255,255,0.8), transparent),
-radial-gradient(2px 2px at 47% 4%,  rgba(0,212,255,0.8),  transparent),
-radial-gradient(1px 1px at 4%  55%, rgba(0,212,255,0.5),  transparent),
-radial-gradient(1px 1px at 96% 88%, rgba(255,238,0,0.6),  transparent),
-radial-gradient(1px 1px at 72% 33%, rgba(255,255,255,0.4), transparent),
-radial-gradient(1px 1px at 18% 48%, rgba(255,255,255,0.7), transparent),
-radial-gradient(1px 1px at 88% 22%, rgba(0,212,255,0.4),  transparent),
-radial-gradient(2px 2px at 62% 72%, rgba(255,255,255,0.5), transparent);
-animation: twinkle 6s ease-in-out infinite alternate;
-}
-#stars::after {
-background-image:
-radial-gradient(1px 1px at 5%  30%, rgba(255,255,255,0.5), transparent),
-radial-gradient(1px 1px at 44% 58%, rgba(255,255,255,0.6), transparent),
-radial-gradient(1px 1px at 79% 41%, rgba(255,255,255,0.4), transparent),
-radial-gradient(1px 1px at 29% 79%, rgba(0,212,255,0.3),  transparent),
-radial-gradient(1px 1px at 66% 14%, rgba(255,255,255,0.7), transparent),
-radial-gradient(1px 1px at 93% 63%, rgba(255,238,0,0.3),  transparent);
-animation: twinkle 9s ease-in-out infinite alternate-reverse;
-}
-@keyframes twinkle {
-0%   { opacity: 0.6; }
-50%  { opacity: 1.0; }
-100% { opacity: 0.7; }
-}
-body::before {
-content: ‘’;
-position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-background:
-radial-gradient(ellipse 60% 40% at 20% 30%, rgba(0,60,120,0.18) 0%, transparent 70%),
-radial-gradient(ellipse 50% 35% at 80% 70%, rgba(0,30,90,0.15) 0%, transparent 70%);
-pointer-events: none; z-index: 0;
-}
+    .wrap {
+      width: min(920px, calc(100% - 24px));
+      margin: 28px auto 40px;
+      position: relative;
+      z-index: 1;
+    }
 
-#app {
-position: relative; z-index: 1;
-max-width: 660px;
-margin: 0 auto;
-padding: 16px 16px 40px;
-min-height: 100vh;
-}
+    .title {
+      text-align: center;
+      margin-bottom: 18px;
+    }
 
-/* HEADER */
-.game-header { text-align: center; padding: 22px 0 14px; }
-.game-title {
-font-family: ‘Orbitron’, monospace;
-font-size: clamp(1.6rem, 6vw, 2.4rem);
-font-weight: 900;
-color: var(–accent);
-text-shadow: 0 0 12px var(–accent), 0 0 28px rgba(0,212,255,0.5), 0 0 60px rgba(0,212,255,0.2);
-letter-spacing: 4px;
-animation: flicker 5s infinite;
-}
-.game-subtitle {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.52rem;
-color: var(–yellow);
-margin-top: 7px;
-letter-spacing: 2px;
-text-shadow: 0 0 8px rgba(255,228,77,0.5);
-}
-@keyframes flicker {
-0%,92%,100%{ opacity:1; }
-93%{ opacity:0.75; }
-94%{ opacity:1; }
-96%{ opacity:0.55; }
-97%{ opacity:1; }
-}
+    .brand {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(21,214,255,.45);
+      margin: 0;
+    }
 
-/* PANEL */
-.panel {
-background: var(–bg-panel);
-border: 1.5px solid var(–border-panel);
-border-radius: 16px;
-padding: 22px 20px;
-margin: 12px 0;
-box-shadow:
-0 0 0 1px rgba(0,0,0,0.5),
-0 4px 24px rgba(0,0,0,0.5),
-0 0 40px rgba(0,212,255,0.04),
-inset 0 1px 0 rgba(255,255,255,0.04);
-}
-.panel-title {
-font-family: ‘Orbitron’, monospace;
-font-size: 0.72rem;
-font-weight: 700;
-color: var(–accent);
-letter-spacing: 2px;
-margin-bottom: 14px;
-display: flex;
-align-items: center;
-gap: 8px;
-text-shadow: 0 0 8px var(–accent-glow);
-}
+    .subtitle {
+      margin-top: 6px;
+      color: var(--yellow);
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 0.95rem;
+    }
 
-/* LEVEL BUTTONS */
-.level-btn {
-display: block; width: 100%;
-background: var(–bg-panel-inner);
-border: 1.5px solid var(–border-panel);
-border-radius: 12px;
-padding: 18px 52px 18px 20px;
-margin: 10px 0;
-cursor: pointer; text-align: left;
-transition: all 0.18s ease;
-color: var(–text-white);
-font-family: ‘Nunito’, sans-serif;
-position: relative; overflow: hidden;
-}
-.level-btn:hover {
-border-color: var(–accent);
-background: var(–bg-option-hover);
-box-shadow: 0 0 18px var(–accent-glow), inset 0 1px 0 rgba(255,255,255,0.05);
-transform: translateY(-2px);
-}
-.level-btn .lvl-title {
-font-family: ‘Orbitron’, monospace;
-font-size: 0.82rem; font-weight: 700;
-display: block; margin-bottom: 5px;
-}
-.level-btn .lvl-desc {
-font-size: 0.95rem; font-weight: 700;
-color: var(–text-light); line-height: 1.4;
-}
-.level-1 .lvl-title { color: var(–green-level); text-shadow: 0 0 8px rgba(0,255,136,0.5); }
-.level-2 .lvl-title { color: var(–yellow);      text-shadow: 0 0 8px rgba(255,228,77,0.5); }
-.level-3 .lvl-title { color: var(–red-level);   text-shadow: 0 0 8px rgba(255,77,109,0.5); }
-.level-badge {
-position: absolute; right: 18px; top: 50%;
-transform: translateY(-50%); font-size: 1.7rem;
-}
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
 
-/* STATS */
-.stats-bar {
-display: flex; gap: 10px; flex-wrap: wrap;
-align-items: stretch; margin-bottom: 14px;
-}
-.stat-block {
-flex: 1; min-width: 110px;
-background: var(–bg-stat);
-border: 1.5px solid rgba(0,212,255,0.18);
-border-radius: 10px; padding: 10px 14px 12px;
-}
-.stat-label {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.42rem; color: var(–text-muted);
-display: block; margin-bottom: 6px; letter-spacing: 1px;
-}
-.stat-value {
-font-family: ‘Orbitron’, monospace;
-font-size: 1.15rem; font-weight: 900;
-color: var(–yellow);
-text-shadow: 0 0 10px rgba(255,228,77,0.4);
-line-height: 1;
-}
-.stat-value.cyan  { color: var(–accent);   text-shadow: 0 0 10px var(–accent-glow); }
-.stat-value.green { color: var(–correct);  text-shadow: 0 0 10px rgba(0,255,136,0.4); }
-.stat-value.pink  { color: var(–red-level);text-shadow: 0 0 10px rgba(255,77,109,0.4); }
-.energy-display { font-size: 1.25rem; letter-spacing: 3px; line-height: 1.2; }
-.lives-display  { font-size: 1.35rem; letter-spacing: 3px; line-height: 1.2; }
+    .hud {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
 
-/* ASTROBOT */
-.astrobot-container { text-align: center; padding: 6px 0 4px; }
-.astrobot {
-font-size: 3.8rem; display: inline-block;
-animation: float 3s ease-in-out infinite;
-filter: drop-shadow(0 0 14px rgba(0,212,255,0.6)) drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-}
-@keyframes float {
-0%,100% { transform: translateY(0px) rotate(0deg); }
-50%      { transform: translateY(-9px) rotate(1deg); }
-}
-.astrobot.shake { animation: shake 0.4s ease; }
-@keyframes shake {
-0%,100%{ transform:translateX(0) }
-20%{ transform:translateX(-7px) }
-40%{ transform:translateX(7px) }
-60%{ transform:translateX(-5px) }
-80%{ transform:translateX(5px) }
-}
-.astrobot.bounce { animation: abounce 0.45s ease; }
-@keyframes abounce {
-0%,100%{ transform:translateY(0) scale(1) }
-40%{ transform:translateY(-14px) scale(1.12) }
-70%{ transform:translateY(-6px) scale(1.05) }
-}
+    .hud-box {
+      background: rgba(4, 19, 39, 0.85);
+      border: 1px solid rgba(21,214,255,.25);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
 
-/* SPEECH BUBBLE */
-.speech-bubble {
-background: rgba(0,212,255,0.07);
-border: 1.5px solid rgba(0,212,255,0.3);
-border-radius: 14px; padding: 14px 18px;
-margin: 8px 0 12px;
-font-size: 1.05rem; font-weight: 800;
-color: var(–text-white); line-height: 1.55;
-text-align: center; position: relative;
-}
-.speech-bubble::before {
-content: ‘▲’; position: absolute;
-top: -12px; left: 50%; transform: translateX(-50%);
-color: rgba(0,212,255,0.35); font-size: 0.85rem;
-}
+    .hud-label {
+      color: var(--muted);
+      font-size: .85rem;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
 
-/* PROGRESS */
-.progress-track {
-background: rgba(0,0,0,0.4);
-border: 1px solid rgba(0,212,255,0.12);
-border-radius: 6px; height: 8px;
-margin: 6px 0; overflow: hidden;
-}
-.progress-fill {
-height: 100%;
-background: linear-gradient(90deg, var(–accent), var(–correct));
-border-radius: 6px; transition: width 0.45s ease;
-box-shadow: 0 0 10px rgba(0,212,255,0.6);
-}
-.question-counter {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.42rem; color: var(–text-muted);
-text-align: right; margin: 4px 0 12px; letter-spacing: 1px;
-}
+    .hud-value {
+      font-size: 1.6rem;
+      font-weight: 900;
+    }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-QUESTION — MÁXIMO CONTRASTE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.question-area { text-align: center; }
-.mission-tag {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.5rem; color: var(–text-muted);
-letter-spacing: 2px; margin-bottom: 10px; display: block;
-}
-.question-text {
-display: block;
-font-family: ‘Orbitron’, monospace;
-font-size: clamp(1.7rem, 7vw, 2.4rem);
-font-weight: 900;
-color: #ffffff !important;
-background: var(–bg-panel-inner);
-border: 2px solid var(–border-strong);
-border-radius: 14px;
-padding: 18px 16px;
-margin: 0 0 16px;
-letter-spacing: 2px; text-align: center;
-text-shadow: 0 0 16px rgba(0,212,255,0.7), 0 2px 4px rgba(0,0,0,0.9);
-box-shadow: 0 0 24px rgba(0,212,255,0.12), inset 0 2px 0 rgba(255,255,255,0.04);
-line-height: 1.2;
-}
+    .energy {
+      font-size: 1.5rem;
+      letter-spacing: 4px;
+    }
 
-/* OPTIONS */
-.options-grid {
-display: grid; grid-template-columns: 1fr 1fr 1fr;
-gap: 10px; margin: 0 0 4px;
-}
-.option-btn {
-background: var(–bg-option);
-border: 2px solid rgba(0,212,255,0.3);
-border-radius: 12px; padding: 16px 8px 14px;
-cursor: pointer;
-font-family: ‘Orbitron’, monospace;
-font-weight: 900; font-size: 1.25rem;
-color: #ffffff;
-transition: all 0.15s ease; text-align: center; line-height: 1;
-}
-.option-btn:hover:not(:disabled) {
-background: var(–bg-option-hover);
-border-color: var(–accent);
-color: #ffffff;
-box-shadow: 0 0 16px var(–accent-glow);
-transform: scale(1.05) translateY(-1px);
-}
-.option-btn.correct {
-background: var(–correct-bg) !important;
-border-color: var(–correct) !important;
-color: var(–correct) !important;
-box-shadow: 0 0 20px rgba(0,255,136,0.35) !important;
-text-shadow: 0 0 8px rgba(0,255,136,0.6);
-}
-.option-btn.wrong {
-background: var(–wrong-bg) !important;
-border-color: var(–wrong) !important;
-color: var(–wrong) !important;
-box-shadow: 0 0 14px rgba(255,77,109,0.3) !important;
-}
-.option-btn:disabled { cursor: default; }
-.option-label {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.45rem; display: block;
-color: var(–text-muted); margin-bottom: 6px; letter-spacing: 1px;
-}
+    .mission {
+      text-align: center;
+      margin-bottom: 16px;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 1px;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+    }
 
-/* FEEDBACK */
-.feedback-box {
-border-radius: 12px; padding: 16px 18px;
-margin: 14px 0 10px;
-font-size: 1.05rem; font-weight: 800;
-line-height: 1.55; animation: fadeSlideIn 0.3s ease;
-}
-.feedback-box.correct {
-background: var(–correct-bg);
-border: 2px solid var(–correct-border);
-color: var(–correct);
-text-shadow: 0 0 6px rgba(0,255,136,0.3);
-}
-.feedback-box.wrong {
-background: var(–wrong-bg);
-border: 2px solid var(–wrong-border);
-color: var(–wrong);
-text-shadow: 0 0 6px rgba(255,77,109,0.3);
-}
-.feedback-box strong { color: #ffffff; font-size: 1.1em; }
-.feedback-box small {
-display: block; margin-top: 6px;
-font-size: 0.92rem; color: var(–text-light); font-weight: 700;
-}
-@keyframes fadeSlideIn {
-from { opacity:0; transform:translateY(10px); }
-to   { opacity:1; transform:translateY(0); }
-}
+    .robot {
+      text-align: center;
+      font-size: 4rem;
+      margin: 8px 0 16px;
+      filter: drop-shadow(0 0 18px rgba(21,214,255,.45));
+    }
 
-/* BUTTONS */
-.btn-next {
-width: 100%;
-background: linear-gradient(135deg, rgba(0,212,255,0.15) 0%, rgba(0,100,180,0.2) 100%);
-border: 2px solid var(–accent);
-border-radius: 12px; padding: 15px 20px;
-cursor: pointer;
-font-family: ‘Orbitron’, monospace;
-font-weight: 700; font-size: 0.82rem;
-color: var(–accent); letter-spacing: 2px;
-transition: all 0.18s ease; margin-top: 10px;
-text-shadow: 0 0 8px var(–accent-glow);
-box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-}
-.btn-next:hover {
-background: rgba(0,212,255,0.22);
-box-shadow: 0 0 22px var(–accent-glow), 0 2px 12px rgba(0,0,0,0.3);
-transform: translateY(-1px);
-}
-.btn-next.start {
-background: linear-gradient(135deg, rgba(0,255,136,0.15) 0%, rgba(0,120,70,0.2) 100%);
-border-color: var(–correct); color: var(–correct);
-text-shadow: 0 0 8px rgba(0,255,136,0.4);
-}
-.btn-next.start:hover { background: rgba(0,255,136,0.2); box-shadow: 0 0 22px rgba(0,255,136,0.3); }
-.btn-next.restart {
-background: linear-gradient(135deg, rgba(255,228,77,0.15) 0%, rgba(180,120,0,0.15) 100%);
-border-color: var(–yellow); color: var(–yellow);
-text-shadow: 0 0 8px rgba(255,228,77,0.4);
-}
-.btn-next.restart:hover { background: rgba(255,228,77,0.18); box-shadow: 0 0 22px rgba(255,228,77,0.25); }
+    .bubble {
+      background: var(--panel-2);
+      border: 2px solid rgba(21,214,255,.35);
+      border-radius: 20px;
+      padding: 22px 18px;
+      font-size: clamp(1.05rem, 2.5vw, 1.45rem);
+      line-height: 1.6;
+      text-align: center;
+      color: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+      margin-bottom: 18px;
+    }
 
-/* STARS ROW */
-.stars-row { font-size: 1.4rem; letter-spacing: 4px; line-height: 1; }
+    .question {
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(21,214,255,.25);
+    }
 
-/* SCREEN TRANSITION */
-.screen { animation: screenIn 0.32s ease; }
-@keyframes screenIn {
-from { opacity:0; transform:translateY(14px); }
-to   { opacity:1; transform:translateY(0); }
-}
+    .question-note {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: .95rem;
+    }
 
-/* DIVIDER */
-.divider { border: none; border-top: 1px solid rgba(0,212,255,0.12); margin: 14px 0; }
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
 
-/* RANKING */
-.ranking-screen { text-align: center; }
-.ranking-badge {
-font-size: 4.5rem; display: block;
-margin: 6px 0 4px; animation: pulse 1.6s ease-in-out infinite;
-filter: drop-shadow(0 0 16px rgba(255,228,77,0.5));
-}
-@keyframes pulse {
-0%,100%{ transform:scale(1) rotate(0deg); }
-50%{ transform:scale(1.1) rotate(3deg); }
-}
-.ranking-title {
-font-family: ‘Orbitron’, monospace;
-font-size: clamp(1.2rem, 5vw, 1.9rem);
-font-weight: 900; margin: 8px 0 4px; letter-spacing: 1px;
-}
-.ranking-title.gold   { color: var(–yellow);  text-shadow: 0 0 20px rgba(255,228,77,0.6); }
-.ranking-title.silver { color: #a8d8ff;        text-shadow: 0 0 20px rgba(168,216,255,0.5); }
-.ranking-title.green  { color: var(–correct); text-shadow: 0 0 20px rgba(0,255,136,0.5); }
-.ranking-score {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.85rem; color: var(–accent);
-margin: 14px 0; text-shadow: 0 0 10px var(–accent-glow);
-}
-.ranking-msg {
-font-size: 1.1rem; font-weight: 800;
-line-height: 1.6; color: var(–text-light); margin: 10px 0 16px;
-}
+    .answer-btn,
+    .next-btn,
+    .menu-btn {
+      border: none;
+      border-radius: 18px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: .18s transform ease, .18s filter ease, .18s opacity ease;
+    }
 
-/* MEDALS */
-.medals-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 10px 0; }
-.medal {
-background: var(–bg-stat);
-border: 1.5px solid rgba(0,212,255,0.2);
-border-radius: 8px; padding: 7px 14px;
-font-size: 0.92rem; font-weight: 800; color: var(–text-light);
-}
+    .answer-btn {
+      padding: 18px 12px;
+      background: rgba(7, 24, 46, 0.95);
+      color: #fff;
+      border: 2px solid rgba(21,214,255,.25);
+      font-size: 1.4rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,.2);
+    }
 
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.25); border-radius: 4px; }
+    .answer-btn:hover,
+    .next-btn:hover,
+    .menu-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
 
-.menu-hint {
-font-family: ‘Press Start 2P’, monospace;
-font-size: 0.48rem; color: var(–text-muted);
-line-height: 2.2; letter-spacing: 0.5px;
-}
-</style>
+    .answer-btn.correct {
+      background: rgba(25,227,138,.16);
+      border-color: var(--good);
+      color: #fff;
+    }
 
+    .answer-btn.wrong {
+      background: rgba(255,92,122,.18);
+      border-color: var(--bad);
+      color: #fff;
+    }
+
+    .feedback {
+      min-height: 72px;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: none;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .feedback.good {
+      display: block;
+      background: rgba(25,227,138,.16);
+      border: 2px solid var(--good);
+      color: #fff;
+    }
+
+    .feedback.bad {
+      display: block;
+      background: rgba(255,92,122,.18);
+      border: 2px solid var(--bad);
+      color: #fff;
+    }
+
+    .next-btn, .menu-btn {
+      width: 100%;
+      padding: 18px 16px;
+      background: var(--btn);
+      color: #04111f;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 24px rgba(0, 181, 255, .28);
+    }
+
+    .menu-btn {
+      background: linear-gradient(135deg, #12f0a0, #00d4ff);
+      margin-top: 10px;
+    }
+
+    .hidden { display: none !important; }
+
+    .result-title {
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: var(--yellow);
+    }
+
+    .result-text {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #fff;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 700px) {
+      .hud {
+        grid-template-columns: 1fr;
+      }
+      .answers {
+        grid-template-columns: 1fr;
+      }
+      .wrap {
+        width: min(100% - 16px, 900px);
+        margin-top: 18px;
+      }
+      .panel {
+        padding: 16px;
+        border-radius: 18px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div id="stars"></div>
-<div id="app">
+  <div class="wrap">
+    <div class="title">
+      <h1 class="brand">🚀 ASTROBOT</h1>
+      <div class="subtitle">✦ MISIÓN TABLA DEL 2 ✦</div>
+    </div>
 
-  <div class="game-header">
-    <div class="game-title">🚀 ASTROBOT</div>
-    <div class="game-subtitle">★ MISIÓN TABLA DEL 2 ★</div>
+    <div class="panel">
+      <div id="intro-screen">
+        <div class="mission">🌙 MISIÓN ASTROBOT — Nivel Básico</div>
+        <div class="robot">🤖</div>
+        <div class="bubble">
+          ¡Hola! Soy Astrobot, tu robot explorador espacial 🤖<br><br>
+          Estoy en una misión para llegar a la <strong>Luna Cristal ✨</strong>.<br>
+          Solo puedo avanzar si resolvemos juntos la tabla del 2.
+        </div>
+        <button id="start-btn" class="next-btn">▶ SIGUIENTE</button>
+      </div>
+
+      <div id="game-screen" class="hidden">
+        <div class="hud">
+          <div class="hud-box">
+            <div class="hud-label">PUNTAJE</div>
+            <div class="hud-value" id="score">0 PTS</div>
+          </div>
+          <div class="hud-box">
+            <div class="hud-label">ENERGÍA</div>
+            <div class="energy" id="energy">🟩🟩🟩🟩🟩</div>
+          </div>
+        </div>
+
+        <div class="question" id="question">2 × 1 = ?</div>
+        <div class="question-note" id="question-count">Pregunta 1 de 10</div>
+
+        <div class="answers" id="answers"></div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <button id="next-btn" class="next-btn hidden">▶ SIGUIENTE PREGUNTA</button>
+      </div>
+
+      <div id="result-screen" class="hidden">
+        <div class="result-title">🚀 MISIÓN COMPLETADA</div>
+        <div class="result-text" id="result-text"></div>
+        <button id="restart-btn" class="menu-btn">🔁 JUGAR OTRA VEZ</button>
+      </div>
+    </div>
   </div>
 
-  <div id="screen"></div>
+  <script>
+    const questions = [
+      { q: "2 × 1 = ?", correct: 2, options: [1, 2, 3] },
+      { q: "2 × 2 = ?", correct: 4, options: [3, 4, 6] },
+      { q: "2 × 3 = ?", correct: 6, options: [5, 6, 7] },
+      { q: "2 × 4 = ?", correct: 8, options: [6, 8, 10] },
+      { q: "2 × 5 = ?", correct: 10, options: [8, 10, 12] },
+      { q: "2 × 6 = ?", correct: 12, options: [10, 12, 14] },
+      { q: "2 × 7 = ?", correct: 14, options: [12, 14, 16] },
+      { q: "2 × 8 = ?", correct: 16, options: [14, 16, 18] },
+      { q: "2 × 9 = ?", correct: 18, options: [16, 18, 20] },
+      { q: "2 × 10 = ?", correct: 20, options: [18, 20, 22] }
+    ];
 
-</div>
-</style>
-<script>
-// ═══════════════════════════════════════════════
-//  DATOS DEL JUEGO
-// ═══════════════════════════════════════════════
+    let current = 0;
+    let score = 0;
+    let lives = 5;
+    let locked = false;
 
-const LEVELS = {
-  1: {
-    name: "MISIÓN ASTROBOT",
-    subtitle: "Nivel Básico",
-    emoji: "🌙",
-    story: [
-      "¡Hola! Soy Astrobot, tu robot explorador espacial 🤖",
-      "Estoy en una misión para llegar a la Luna Cristal ✨",
-      "¡Pero las puertas de la nave están bloqueadas!",
-      "Solo se abren resolviendo multiplicaciones del 2.",
-      "¿Me ayudas a llegar? ¡JUNTOS PODEMOS! 🚀"
-    ],
-    questions: [
-      { q: "2 × 1 = ?", a: 2,  opts: [1, 2, 3],   msg: "¡Empezamos con todo! 💪" },
-      { q: "2 × 2 = ?", a: 4,  opts: [3, 4, 6],   msg: "¡Bien hecho, astronauta! ⭐" },
-      { q: "2 × 3 = ?", a: 6,  opts: [5, 6, 7],   msg: "¡La nave avanza! 🚀" },
-      { q: "2 × 4 = ?", a: 8,  opts: [6, 8, 10],  msg: "¡Increíble! Sigues brillando ✨" },
-      { q: "2 × 5 = ?", a: 10, opts: [8, 10, 12], msg: "¡Estamos a mitad de camino! 🌟" },
-      { q: "2 × 6 = ?", a: 12, opts: [10, 12, 14],"msg": "¡Perfecto! La Luna se acerca 🌙" },
-      { q: "2 × 7 = ?", a: 14, opts: [12, 14, 16],"msg": "¡Casi eres un experto! 🏆" },
-      { q: "2 × 8 = ?", a: 16, opts: [14, 16, 18],"msg": "¡Wow! ¡Qué cerebro espacial! 🧠" },
-      { q: "2 × 9 = ?", a: 18, opts: [16, 18, 20],"msg": "¡Solo queda una! ¡Tú puedes! 💥" },
-      { q: "2 × 10 = ?",a: 20, opts: [18, 20, 22],"msg": "¡MISIÓN COMPLETADA! ¡Eres GENIAL! 🎉" },
-    ],
-    maxEnergy: 5,
-    winMsg: "¡Llegamos a la Luna Cristal! Astrobot baila de alegría contigo. ¡INCREÍBLE!",
-  },
-  2: {
-    name: "MISIÓN AVANZADA",
-    subtitle: "Nivel Intermedio",
-    emoji: "⭐",
-    story: [
-      "¡Volviste! Eso me dice que eres MUY valiente 🤖💪",
-      "Esta vez debemos llegar al Planeta Áureo 🪐",
-      "Las preguntas están mezcladas y son más difíciles...",
-      "¡Pero sé que puedes hacerlo, explorador! 🌟"
-    ],
-    questions: [
-      { q: "2 × 0 = ?",        a: 0,  opts: [0, 2, 4],   msg: "¡Cero veces cualquier número es 0! 🧠" },
-      { q: "2 × 5 = ?",        a: 10, opts: [8, 10, 14],  msg: "¡Perfecto! ⭐" },
-      { q: "2 × 3 = ?",        a: 6,  opts: [4, 6, 8],   msg: "¡Genial! La nave acelera 🚀" },
-      { q: "2 × 10 = ?",       a: 20, opts: [18, 20, 22], msg: "¡2×10 es el poder máximo! 💥" },
-      { q: "2 × 7 = ?",        a: 14, opts: [12, 14, 16], msg: "¡Eso es! 🌟" },
-      { q: "¿? × 2 = 8",       a: 4,  opts: [3, 4, 5],   msg: "¡Resolviste una pregunta inversa! 🧩" },
-      { q: "2 × 9 = ?",        a: 18, opts: [16, 18, 20], msg: "¡Astrobot te aplaude! 👏" },
-      { q: "¿? × 2 = 12",      a: 6,  opts: [5, 6, 7],   msg: "¡Eres un detective espacial! 🔍" },
-      { q: "2 × 4 = ?",        a: 8,  opts: [6, 8, 10],  msg: "¡Ni se te escapa ninguna! 🎯" },
-      { q: "¿? × 2 = 20",      a: 10, opts: [8, 10, 12],  msg: "¡MISIÓN AVANZADA SUPERADA! 🏆" },
-    ],
-    maxEnergy: 5,
-    winMsg: "¡Llegamos al Planeta Áureo! Astrobot enciende sus luces de celebración. ¡MASTER ESPACIAL!",
-  },
-  3: {
-    name: "DESAFÍO ESPACIAL",
-    subtitle: "Nivel Difícil",
-    emoji: "💥",
-    story: [
-      "🚨 ¡ALERTA ESPACIAL! 🚨",
-      "¡Un meteorito amenaza el Planeta Tierra! ☄️",
-      "Solo Astrobot puede activar el escudo protector...",
-      "¡Pero necesita TU ayuda para resolver los códigos!",
-      "Tienes 3 vidas 💔💔💔 — ¡No las pierdas!",
-      "¡EL PLANETA DEPENDE DE TI! 🌍"
-    ],
-    questions: [
-      { q: "2 × 8 = ?",        a: 16, opts: [14, 16, 18], msg: "¡Código activado! 🛡️" },
-      { q: "¿? × 2 = 6",       a: 3,  opts: [2, 3, 4],   msg: "¡Detective espacial! 🔍" },
-      { q: "2 × 7 = ?",        a: 14, opts: [12, 14, 16], msg: "¡El escudo crece! ⚡" },
-      { q: "2 × 6 = ?",        a: 12, opts: [10, 12, 14], msg: "¡Excelente! 💪" },
-      { q: "¿? × 2 = 18",      a: 9,  opts: [8, 9, 10],  msg: "¡Increíble! 🌟" },
-      { q: "2 × 9 = ?",        a: 18, opts: [16, 18, 20], msg: "¡El meteorito retrocede! ☄️💥" },
-      { q: "¿? × 2 = 14",      a: 7,  opts: [6, 7, 8],   msg: "¡Genio espacial! 🧠" },
-      { q: "2 × 5 = ?",        a: 10, opts: [8, 10, 12],  msg: "¡Sigues fuerte! 💥" },
-      { q: "2 × 10 = ?",       a: 20, opts: [18, 20, 22], msg: "¡El escudo al máximo! 🛡️⚡" },
-      { q: "¿? × 2 = 16",      a: 8,  opts: [7, 8, 9],   msg: "¡PLANETA SALVADO! 🌍✨🎆" },
-    ],
-    maxLives: 3,
-    winMsg: "¡EL PLANETA TIERRA ESTÁ SALVO! Eres el HÉROE GALÁCTICO. ¡Astrobot y toda la galaxia te aplauden!",
-  }
-};
+    const introScreen = document.getElementById("intro-screen");
+    const gameScreen = document.getElementById("game-screen");
+    const resultScreen = document.getElementById("result-screen");
 
-const CORRECT_MSGS = [
-  "¡Correcto! ¡Eres increíble! 🌟",
-  "¡Exacto! ¡Qué listo/a! 🧠",
-  "¡Perfecto! ¡Lo sabías! 💪",
-  "¡Brillante! ¡Sigue así! ⭐",
-  "¡WOW! ¡Eso estuvo genial! 🚀",
-];
-const WRONG_MSGS = [
-  "¡Ups! ¡Tú puedes! 💪",
-  "¡Casi! La próxima la clavas 🌟",
-  "¡No pasa nada! ¡Sigue adelante! 🤖",
-  "¡Ánimo! ¡Eres un explorador valiente! 💫",
-];
+    const startBtn = document.getElementById("start-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
 
-const STARS = ["⭐","🌟","💫","✨"];
+    const questionEl = document.getElementById("question");
+    const countEl = document.getElementById("question-count");
+    const answersEl = document.getElementById("answers");
+    const feedbackEl = document.getElementById("feedback");
+    const scoreEl = document.getElementById("score");
+    const energyEl = document.getElementById("energy");
+    const resultText = document.getElementById("result-text");
 
-// ═══════════════════════════════════════════════
-//  ESTADO
-// ═══════════════════════════════════════════════
-
-let state = {
-  screen: 'menu',
-  level: null,
-  questionIndex: 0,
-  score: 0,
-  energy: 5,
-  lives: 3,
-  stars: [],
-  answered: false,
-  selectedOpt: null,
-  storyIndex: 0,
-};
-
-function reset(level) {
-  const lv = LEVELS[level];
-  state = {
-    screen: 'story',
-    level,
-    questionIndex: 0,
-    score: 0,
-    energy: lv.maxEnergy || 5,
-    lives: lv.maxLives || 3,
-    stars: [],
-    answered: false,
-    selectedOpt: null,
-    storyIndex: 0,
-  };
-}
-
-// ═══════════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════════
-
-function render() {
-  const el = document.getElementById('screen');
-  el.className = 'screen';
-  if (state.screen === 'menu') el.innerHTML = renderMenu();
-  else if (state.screen === 'story') el.innerHTML = renderStory();
-  else if (state.screen === 'game') el.innerHTML = renderGame();
-  else if (state.screen === 'result') el.innerHTML = renderResult();
-}
-
-function renderMenu() {
-  return `
-    <div class="panel" style="text-align:center; padding:26px 20px;">
-      <div style="font-size:3.5rem; margin-bottom:10px; display:inline-block; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 14px rgba(0,212,255,0.6));">🤖</div>
-      <div style="font-family:'Orbitron',monospace; font-size:0.72rem; color:var(--accent); margin-bottom:6px; letter-spacing:2px; text-shadow: 0 0 8px var(--accent-glow);">ASTROBOT DICE:</div>
-      <div class="speech-bubble" style="margin:10px 0 20px;">
-        ¡Hola explorador/a! 👋<br>
-        Elige tu misión y ayúdame<br>a salvar la galaxia con<br>la <strong style="color:var(--accent);">tabla del 2</strong>! 🚀
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">⚡ ELIGE TU MISIÓN</div>
-
-      <button class="level-btn level-1" onclick="startLevel(1)">
-        <span class="lvl-title">🌙 JUEGO 1 — MISIÓN ASTROBOT</span>
-        <span class="lvl-desc">Tabla del 2 en orden · Perfecta para comenzar · 5 🔋</span>
-        <span class="level-badge">🟢</span>
-      </button>
-
-      <button class="level-btn level-2" onclick="startLevel(2)">
-        <span class="lvl-title">⭐ JUEGO 2 — MISIÓN AVANZADA</span>
-        <span class="lvl-desc">Preguntas mezcladas + inversas · Ojo con el 0 y el 10 · 5 🔋</span>
-        <span class="level-badge">🟡</span>
-      </button>
-
-      <button class="level-btn level-3" onclick="startLevel(3)">
-        <span class="lvl-title">💥 JUEGO 3 — DESAFÍO ESPACIAL</span>
-        <span class="lvl-desc">Modo difícil · 3 vidas · ¡Salva el planeta! 🌍</span>
-        <span class="level-badge">🔴</span>
-      </button>
-    </div>
-
-    <div class="panel" style="text-align:center;">
-      <div class="menu-hint">
-        +10 PTS POR RESPUESTA CORRECTA &nbsp;·&nbsp; GANA ⭐ ESTRELLAS<br>
-        🔋 ENERGÍA BAJA AL FALLAR &nbsp;·&nbsp; CONVIÉRTETE EN MAESTRO GALÁCTICO
-      </div>
-    </div>
-  `;
-}
-
-function renderStory() {
-  const lv = LEVELS[state.level];
-  const lines = lv.story;
-  const shown = lines.slice(0, state.storyIndex + 1);
-  const isLast = state.storyIndex >= lines.length - 1;
-
-  return `
-    <div class="panel" style="text-align:center;">
-      <div class="panel-title" style="justify-content:center;">${lv.emoji} ${lv.name} — ${lv.subtitle}</div>
-      <div class="astrobot-container">
-        <span class="astrobot" id="bot">🤖</span>
-      </div>
-      <div class="speech-bubble">
-        ${shown.map((l,i) => `<div style="margin:5px 0; color:${i===shown.length-1?'#ffffff':'var(--text-light)'}; font-weight:${i===shown.length-1?'900':'700'};">${l}</div>`).join('')}
-      </div>
-      <button class="btn-next start" onclick="advanceStory()">
-        ${isLast ? '🚀 ¡COMENZAR MISIÓN!' : '▶ SIGUIENTE'}
-      </button>
-    </div>
-  `;
-}
-
-function renderGame() {
-  const lv = LEVELS[state.level];
-  const q = lv.questions[state.questionIndex];
-  const total = lv.questions.length;
-  const progress = ((state.questionIndex) / total) * 100;
-
-  const isL3 = state.level === 3;
-
-  // Build options
-  const labels = ['A','B','C'];
-  const optHtml = q.opts.map((opt, i) => {
-    let cls = '';
-    if (state.answered) {
-      if (opt === q.a) cls = 'correct';
-      else if (state.selectedOpt === opt) cls = 'wrong';
+    function renderEnergy() {
+      const filled = "🟩".repeat(Math.max(lives, 0));
+      const empty = "⬜".repeat(Math.max(5 - lives, 0));
+      energyEl.textContent = filled + empty;
     }
-    return `
-      <button class="option-btn ${cls}" ${state.answered?'disabled':''} onclick="selectAnswer(${opt})">
-        <span class="option-label">${labels[i]}</span>
-        ${opt}
-      </button>
-    `;
-  }).join('');
 
-  // Energy / Lives display
-  let statusHtml = '';
-  if (isL3) {
-    const heartsFull = '💔'.repeat(state.lives);
-    const heartsEmpty = '🖤'.repeat(3 - state.lives);
-    statusHtml = `
-      <div class="stat-block">
-        <span class="stat-label">VIDAS</span>
-        <div class="lives-display">${heartsFull}${heartsEmpty}</div>
-      </div>
-    `;
-  } else {
-    const battFull = '🔋'.repeat(state.energy);
-    const battEmpty = '🪫'.repeat(lv.maxEnergy - state.energy);
-    statusHtml = `
-      <div class="stat-block">
-        <span class="stat-label">ENERGÍA</span>
-        <div class="energy-display">${battFull}${battEmpty}</div>
-      </div>
-    `;
-  }
+    function renderScore() {
+      scoreEl.textContent = score + " PTS";
+    }
 
-  // Stars collected
-  const starsHtml = state.stars.length ? `
-    <div class="stat-block">
-      <span class="stat-label">ESTRELLAS</span>
-      <div class="stars-row">${state.stars.join('')}</div>
-    </div>
-  ` : '';
+    function renderQuestion() {
+      locked = false;
+      feedbackEl.className = "feedback";
+      feedbackEl.textContent = "";
+      nextBtn.classList.add("hidden");
 
-  // Feedback
-  let feedbackHtml = '';
-  if (state.answered) {
-    const correct = state.selectedOpt === q.a;
-    feedbackHtml = `
-      <div class="feedback-box ${correct?'correct':'wrong'}">
-        ${correct
-          ? `✅ ¡CORRECTO! <strong>${q.a}</strong> es la respuesta. ${CORRECT_MSGS[state.questionIndex % CORRECT_MSGS.length]}`
-          : `❌ ¡Casi! La respuesta era <strong>${q.a}</strong>. ${WRONG_MSGS[Math.floor(Math.random()*WRONG_MSGS.length)]}`
+      const item = questions[current];
+      questionEl.textContent = item.q;
+      countEl.textContent = `Pregunta ${current + 1} de ${questions.length}`;
+
+      answersEl.innerHTML = "";
+      item.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = option;
+        btn.addEventListener("click", () => handleAnswer(btn, option, item.correct));
+        answersEl.appendChild(btn);
+      });
+
+      renderScore();
+      renderEnergy();
+    }
+
+    function handleAnswer(button, chosen, correct) {
+      if (locked) return;
+      locked = true;
+
+      const buttons = [...document.querySelectorAll(".answer-btn")];
+      buttons.forEach(btn => {
+        if (Number(btn.textContent) === correct) {
+          btn.classList.add("correct");
         }
-        <small>${q.msg}</small>
-      </div>
-      <button class="btn-next" onclick="nextQuestion()">
-        ${state.questionIndex + 1 >= total ? '🏆 VER RESULTADO' : '▶ SIGUIENTE PREGUNTA'}
-      </button>
-    `;
-  }
+      });
 
-  return `
-    <div class="panel">
-      <div class="stats-bar">
-        <div class="stat-block">
-          <span class="stat-label">PUNTAJE</span>
-          <div class="stat-value">${state.score} PTS</div>
-        </div>
-        ${statusHtml}
-        ${starsHtml}
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" style="width:${progress}%"></div>
-      </div>
-      <div class="question-counter">
-        PREGUNTA ${state.questionIndex+1} / ${total}
-      </div>
+      if (chosen === correct) {
+        score += 10;
+        button.classList.add("correct");
+        feedbackEl.className = "feedback good";
+        feedbackEl.textContent = "✅ ¡Excelente! Astrobot avanza un paso más hacia la Luna Cristal.";
+      } else {
+        lives -= 1;
+        button.classList.add("wrong");
+        feedbackEl.className = "feedback bad";
+        feedbackEl.textContent = `❌ Casi. La respuesta correcta era ${correct}. ¡Seguimos, que todavía hay combustible!`;
+      }
 
-      <div class="astrobot-container">
-        <span class="astrobot" id="bot">🤖</span>
-      </div>
-
-      <div class="question-area">
-        <span class="mission-tag">${lv.emoji} ${lv.name.toUpperCase()}</span>
-        <div class="question-text">${q.q}</div>
-        <div class="options-grid">${optHtml}</div>
-      </div>
-
-      ${feedbackHtml}
-    </div>
-  `;
-}
-
-function renderResult() {
-  const lv = LEVELS[state.level];
-  const maxScore = lv.questions.length * 10;
-  const pct = (state.score / maxScore) * 100;
-
-  let rankTitle, rankEmoji, rankColor, rankMsg;
-  if (pct >= 90) {
-    rankTitle = "MAESTRO GALÁCTICO"; rankEmoji = "🏆"; rankColor = "gold";
-    rankMsg = "¡Eres una superestrella del espacio! Astrobot está emocionado. ¡LA GALAXIA ES TUYA! 🌌🎆";
-  } else if (pct >= 70) {
-    rankTitle = "EXPLORADOR ESTELAR"; rankEmoji = "⭐"; rankColor = "silver";
-    rankMsg = "¡Muy bien hecho! Eres un gran explorador espacial. ¡Sigue practicando y llegarás al top! 🚀";
-  } else if (pct >= 50) {
-    rankTitle = "PILOTO ESPACIAL"; rankEmoji = "🚀"; rankColor = "green";
-    rankMsg = "¡Buen trabajo! Tu nave está avanzando. ¡Con más práctica serás imparable! 💪";
-  } else {
-    rankTitle = "NOVATO CÓSMICO"; rankEmoji = "🌱"; rankColor = "green";
-    rankMsg = "¡Todo explorador comienza desde cero! Inténtalo de nuevo y verás cómo mejoras. ¡Astrobot cree en ti! 🤖💙";
-  }
-
-  const correctAnswers = state.score / 10;
-  const starsDisplay = state.stars.join('') || '—';
-
-  return `
-    <div class="panel ranking-screen">
-      <div class="panel-title" style="justify-content:center;">🏁 RESULTADO FINAL</div>
-
-      <span class="ranking-badge">${rankEmoji}</span>
-      <div class="ranking-title ${rankColor}">${rankTitle}</div>
-
-      <hr class="divider">
-
-      <div class="ranking-score">PUNTAJE: ${state.score} / ${maxScore} PTS</div>
-
-      <div class="medals-row">
-        <div class="medal">✅ ${correctAnswers} correctas</div>
-        <div class="medal">❌ ${lv.questions.length - correctAnswers} falladas</div>
-        <div class="medal">⭐ ${state.stars.length} estrellas</div>
-      </div>
-
-      <div class="astrobot-container">
-        <span class="astrobot" id="bot" style="font-size:3.2rem;">🤖</span>
-      </div>
-
-      <div class="speech-bubble">
-        ${lv.winMsg || rankMsg}
-      </div>
-
-      <div class="ranking-msg">${rankMsg}</div>
-
-      <div style="font-size:1.3rem; margin:8px 0; letter-spacing:4px;">${starsDisplay}</div>
-
-      <button class="btn-next restart" onclick="startLevel(${state.level})">
-        🔄 JUGAR DE NUEVO (Nivel ${state.level})
-      </button>
-      <button class="btn-next" style="margin-top:8px;" onclick="goMenu()">
-        🏠 MENÚ PRINCIPAL
-      </button>
-    </div>
-  `;
-}
-
-// ═══════════════════════════════════════════════
-//  LÓGICA
-// ═══════════════════════════════════════════════
-
-function startLevel(n) {
-  reset(n);
-  render();
-}
-
-function advanceStory() {
-  const lv = LEVELS[state.level];
-  if (state.storyIndex < lv.story.length - 1) {
-    state.storyIndex++;
-    render();
-  } else {
-    state.screen = 'game';
-    render();
-  }
-}
-
-function selectAnswer(val) {
-  if (state.answered) return;
-  const lv = LEVELS[state.level];
-  const q = lv.questions[state.questionIndex];
-  const isL3 = state.level === 3;
-
-  state.answered = true;
-  state.selectedOpt = val;
-
-  const correct = val === q.a;
-
-  if (correct) {
-    state.score += 10;
-    // Award star every 2 correct answers
-    if (state.score % 20 === 0) {
-      state.stars.push(STARS[Math.floor(Math.random() * STARS.length)]);
+      renderScore();
+      renderEnergy();
+      nextBtn.classList.remove("hidden");
     }
-    // Animate bot
-    setTimeout(() => {
-      const bot = document.getElementById('bot');
-      if (bot) { bot.classList.add('bounce'); setTimeout(() => bot.classList.remove('bounce'), 500); }
-    }, 50);
-  } else {
-    if (isL3) {
-      state.lives = Math.max(0, state.lives - 1);
-    } else {
-      state.energy = Math.max(0, state.energy - 1);
+
+    function showResult() {
+      introScreen.classList.add("hidden");
+      gameScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+
+      let rank = "";
+      if (score >= 90) rank = "🏆 Maestro Galáctico";
+      else if (score >= 60) rank = "🌟 Explorador Espacial";
+      else rank = "🚀 Cadete Valiente";
+
+      resultText.innerHTML = `
+        Puntaje final: <strong>${score} puntos</strong><br>
+        Energía restante: <strong>${Math.max(lives, 0)}</strong><br><br>
+        Rango: <strong>${rank}</strong><br><br>
+        Astrobot te agradece la ayuda. La misión siguió adelante gracias a ti.
+      `;
     }
-    setTimeout(() => {
-      const bot = document.getElementById('bot');
-      if (bot) { bot.classList.add('shake'); setTimeout(() => bot.classList.remove('shake'), 500); }
-    }, 50);
-  }
 
-  render();
+    startBtn.addEventListener("click", () => {
+      introScreen.classList.add("hidden");
+      gameScreen.classList.remove("hidden");
+      renderQuestion();
+    });
 
-  // Auto-end if level 3 and lives = 0
-  if (isL3 && state.lives === 0) {
-    setTimeout(() => {
-      state.screen = 'result';
-      render();
-    }, 1600);
-  }
-}
+    nextBtn.addEventListener("click", () => {
+      if (lives <= 0) {
+        showResult();
+        return;
+      }
 
-function nextQuestion() {
-  const lv = LEVELS[state.level];
-  const isL3 = state.level === 3;
+      current += 1;
+      if (current >= questions.length) {
+        showResult();
+      } else {
+        renderQuestion();
+      }
+    });
 
-  // Check lives in L3
-  if (isL3 && state.lives === 0) {
-    state.screen = 'result';
-    render();
-    return;
-  }
+    restartBtn.addEventListener("click", () => {
+      current = 0;
+      score = 0;
+      lives = 5;
+      locked = false;
 
-  if (state.questionIndex + 1 >= lv.questions.length) {
-    state.screen = 'result';
-    render();
-  } else {
-    state.questionIndex++;
-    state.answered = false;
-    state.selectedOpt = null;
-    state.screen = 'game';
-    render();
-  }
-}
+      resultScreen.classList.add("hidden");
+      gameScreen.classList.add("hidden");
+      introScreen.classList.remove("hidden");
 
-function goMenu() {
-  state.screen = 'menu';
-  render();
-}
-
-// Init
-render();
-</script>
-
+      renderScore();
+      renderEnergy();
+    });
+  </script>
 </body>
 </html>
